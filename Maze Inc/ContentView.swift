@@ -37,10 +37,9 @@ struct ContentView: View {
     }
     
     func generateMaze() {
-        let grid = Grid(rows: Int(rowsValue), cols: Int(colsValue))
-        let mazeAlgo = BinaryTreeMazeAlgorithm()
-        mazeAlgo.generateMaze(in: grid)
-        grid.draw()
+        let mazeGenerator = MazeGenerator()
+        let maze = mazeGenerator.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
+        maze.draw()
     }
 }
 

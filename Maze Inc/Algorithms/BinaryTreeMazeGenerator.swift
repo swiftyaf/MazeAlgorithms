@@ -1,11 +1,11 @@
 //
-//  BinaryTreeMazeAlgorithm.swift
+//  BinaryTreeMazeGenerator.swift
 //  Maze Inc
 //
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
-class BinaryTreeMazeAlgorithm: MazeAlgorithm {
+class BinaryTreeMazeGenerator: MazeGenerating {
     func generateMaze(in grid: Grid) {
         for row in 0..<grid.rows {
             for col in 0..<grid.cols {
