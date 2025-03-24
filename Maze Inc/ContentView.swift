@@ -38,6 +38,9 @@ struct ContentView: View {
             Button("Generate Maze") {
                 generateMaze()
             }
+            Button("Solve Maze") {
+                solveMaze()
+            }
         }
         .padding()
         .onChange(of: [rowsValue, colsValue]) { _ in
@@ -49,6 +52,8 @@ struct ContentView: View {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue))
     }
     
+    func solveMaze() {
+        mazeManager.solveMaze()
     }
 }
 
