@@ -6,30 +6,45 @@
 //
 
 class MazeSolver { // Dijkstra
-    func solveMaze(_ maze: Grid, start: Position) {
-        var distances : [Position: Int] = [:]
+    private func generateDistances(maze: Grid, start: Position) -> [Position: Int] {
+        var distances: [Position: Int] = [:]
         var frontier: [Cell] = []
-        guard let cell = maze.cell(at: start.row, start.col) else {
-            return
+        guard let cell = maze.cell(at: start) else {
+            return distances
         }
         frontier = [cell]
-        distances[Position(row: cell.row, col: cell.col)] = 0
-        cell.value = "0"
+        distances[cell.position] = 0
         
         while !frontier.isEmpty {
             var newFrontier: [Cell] = []
             for cell in frontier {
                 for neighbor in cell.links {
-                    if !distances.keys.contains(Position(row: neighbor.row, col: neighbor.col)) {
-                        let dist = distances[Position(row: cell.row, col: cell.col)]! + 1
-                        distances[Position(row: neighbor.row, col: neighbor.col)] = dist
-                        neighbor.value = "\(dist)"
+                    if !distances.keys.contains(neighbor.position) {
+                        let dist = distances[cell.position]! + 1
+                        distances[neighbor.position] = dist
                         newFrontier.append(neighbor)
                     }
                 }
             }
             frontier = newFrontier
         }
-        maze.draw()
+        return distances
+    }
+    
+    func solveMaze(_ maze: Grid, start: Position, end: Position) -> [Position] {
+        let distances = generateDistances(maze: maze, start: start)
+        var current = end
+        var breadcrumbs = [end]
+        while current != start {
+            guard let cell = maze.cell(at: current) else {
+                fatalError()
+            }
+            guard let previousCell = cell.links.first(where: { distances[$0.position]! < distances[current]! }) else {
+                fatalError()
+            }
+            breadcrumbs.append(previousCell.position)
+            current = previousCell.position
+        }
+        return breadcrumbs
     }
 }

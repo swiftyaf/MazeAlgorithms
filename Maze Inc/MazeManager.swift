@@ -22,6 +22,14 @@ class MazeManager {
     }
     
     func solveMaze() {
-        mazeSolver.solveMaze(maze, start: Position(row: 0, col: 0))
+        let path = mazeSolver.solveMaze(
+            maze,
+            start: Position(0, 0),
+            end: Position(maze.rows - 1, maze.cols - 1)
+        )
+        for position in path {
+            let cell = maze.cell(at: position)!
+            cell.value = "●"
+        }
     }
 }

@@ -5,6 +5,9 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
+import SwiftUI
+
+@Observable
 class Cell {
     let position: Position
     var value: String = " "
