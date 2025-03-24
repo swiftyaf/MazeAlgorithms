@@ -10,36 +10,40 @@ import SwiftUI
 struct ContentView: View {
     @State private var rowsValue: Double = 4.0
     @State private var colsValue: Double = 4.0
+    @State private var maze: Grid = Grid(size: 4)
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Rows")
-                Slider(value: $rowsValue, in: 4...12, step: 1)
-                    .frame(width: 300)
-                    .padding()
-                
-                Text("\(Int(rowsValue))")
+            VStack(spacing: 0) {
+                Text("Rows: \(Int(rowsValue))")
+                HStack {
+                    Text("4")
+                    Slider(value: $rowsValue, in: 4...12, step: 1)
+                        .frame(width: 300)
+                    Text("12")
+                }
             }
-            HStack {
-                Text("Columns")
-                Slider(value: $colsValue, in: 4...12, step: 1)
-                    .frame(width: 300)
-                    .padding()
-                
-                Text("\(Int(colsValue))")
+            VStack(spacing: 0) {
+                Text("Columns: \(Int(colsValue))")
+                HStack {
+                    Text("4")
+                    Slider(value: $colsValue, in: 4...9, step: 1)
+                        .frame(width: 300)
+                    Text("9")
+                }
             }
             Button("Generate Maze") {
                 generateMaze()
             }
+            Spacer()
+            GridView(grid: maze)
         }
         .padding()
     }
     
     func generateMaze() {
         let mazeGenerator = MazeGenerator()
-        let maze = mazeGenerator.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
-        maze.draw()
+        maze = mazeGenerator.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
     }
 }
 
