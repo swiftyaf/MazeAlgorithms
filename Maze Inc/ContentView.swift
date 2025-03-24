@@ -54,7 +54,7 @@ struct ContentView: View {
     }
     
     func generateMaze() {
-        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue))
+        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
     }
 }
 

@@ -17,8 +17,8 @@ class MazeManager {
     func updateGrid(rows: Int, cols: Int) {
         maze = Grid(rows: rows, cols: cols)
     }
-    func generateMaze(rows: Int, cols: Int) {
-        maze = mazeGenerator.generateMaze(rows: rows, cols: cols, algorithm: .sidewinder)
+    func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) {
+        maze = mazeGenerator.generateMaze(rows: rows, cols: cols, algorithm: algorithm)
     }
     
     func solveMaze() {
