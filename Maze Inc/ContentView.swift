@@ -10,11 +10,12 @@ import SwiftUI
 struct ContentView: View {
     @State private var rowsValue: Double = 4.0
     @State private var colsValue: Double = 4.0
-    @State private var maze: Grid = Grid(size: 4)
+    @State private var mazeManager = MazeManager()
+    
 
     var body: some View {
         VStack {
-            GridView(grid: maze)
+            GridView(grid: mazeManager.maze)
             Spacer()
             VStack(spacing: 0) {
                 Text("Rows: \(Int(rowsValue))")
@@ -40,13 +41,14 @@ struct ContentView: View {
         }
         .padding()
         .onChange(of: [rowsValue, colsValue]) { _ in
-            maze = Grid(rows: Int(rowsValue), cols: Int(colsValue))
+            mazeManager.updateGrid(rows: Int(rowsValue), cols: Int(colsValue))
         }
     }
     
     func generateMaze() {
-        let mazeGenerator = MazeGenerator()
-        maze = mazeGenerator.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
+        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue))
+    }
+    
     }
 }
 
