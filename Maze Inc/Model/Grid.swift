@@ -84,7 +84,7 @@ class Grid { // NW = 0,0
             var wallString = "+"
             for col in 0..<cols {
                 if let cell = cell(at: row, col) {
-                    rowString += "   "
+                    rowString += " \(cell.value) "
                     if wallExists(currentCell: cell, direction: .east) {
                         rowString += "|"
                     } else {
