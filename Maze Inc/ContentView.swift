@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var rowsValue: Double = 4.0
     @State private var colsValue: Double = 4.0
     @State private var mazeManager = MazeManager()
-    
+    @State private var mazeGenerated = false
 
     var body: some View {
         VStack {
@@ -36,25 +36,48 @@ struct ContentView: View {
                 }
             }
             VStack(spacing: 10) {
-                Button("Generate Maze") {
-                    generateMaze()
+                HStack {
+                    Button("Generate (BTree)") {
+                        generateMazeB()
+                    }
+                    Button("Generate (SideW)") {
+                        generateMazeS()
+                    }
                 }
-                Button("Solve Maze NW->SE") {
-                    mazeManager.solveMaze()
+                HStack {
+                    Button("Solve Maze") {
+                        mazeManager.solveMaze()
+                    }
+                    .disabled(!mazeGenerated)
+                    Button("Longest Path") {
+                        mazeManager.longestPath()
+                    }
+                    .disabled(!mazeGenerated)
                 }
-                Button("Longest Path") {
-                    mazeManager.longestPath()
+                HStack {
+                    Button("Colour it!") {
+                        mazeManager.colourMaze()
+                    }
+                    .disabled(!mazeGenerated)
                 }
             }
+            .buttonStyle(BorderedButtonStyle())
         }
         .padding()
         .onChange(of: [rowsValue, colsValue]) { _ in
             mazeManager.updateGrid(rows: Int(rowsValue), cols: Int(colsValue))
+            mazeGenerated = false
         }
     }
     
-    func generateMaze() {
+    func generateMazeB() {
+        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .binaryTree)
+        mazeGenerated = true
+    }
+    
+    func generateMazeS() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
+        mazeGenerated = true
     }
 }
 

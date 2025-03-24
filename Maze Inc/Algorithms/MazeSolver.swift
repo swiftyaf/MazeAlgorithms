@@ -6,7 +6,7 @@
 //
 
 class MazeSolver { // Dijkstra
-    private func generateDistances(maze: Grid, start: Position) -> [Position: Int] {
+    func generateDistances(maze: Grid, start: Position) -> [Position: Int] {
         var distances: [Position: Int] = [:]
         var frontier: [Cell] = []
         guard let cell = maze.cell(at: start) else {

@@ -24,7 +24,7 @@ class MazeManager {
     func solveMaze() {
         let path = mazeSolver.solveMaze(
             maze,
-            start: Position(0, 0),
+            start: Position(maze.rows - 1, 0),
             end: Position(maze.rows - 1, maze.cols - 1)
         )
         drawPath(path)
@@ -33,6 +33,21 @@ class MazeManager {
     func longestPath() {
         let path = mazeSolver.longestPath(maze: maze)
         drawPath(path)
+    }
+    
+    func colourMaze() {
+        let distances = mazeSolver.generateDistances(
+            maze: maze,
+            start: Position(maze.rows/2, maze.cols/2)
+        )
+        for row in 0..<maze.rows {
+            for col in 0..<maze.cols {
+                let position = Position(row, col)
+                if let distance = distances[position], let cell = maze.cell(at: position) {
+                    cell.currentDistance = distance
+                }
+            }
+        }
     }
     
     private func drawPath(_ path: [Position]) {

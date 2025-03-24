@@ -11,6 +11,7 @@ import SwiftUI
 class Cell {
     let position: Position
     var value: String = " "
+    var currentDistance: Int?
     
     var links = [Cell]()
 
