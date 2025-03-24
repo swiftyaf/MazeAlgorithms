@@ -14,6 +14,8 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
+            GridView(grid: maze)
+            Spacer()
             VStack(spacing: 0) {
                 Text("Rows: \(Int(rowsValue))")
                 HStack {
@@ -35,10 +37,11 @@ struct ContentView: View {
             Button("Generate Maze") {
                 generateMaze()
             }
-            Spacer()
-            GridView(grid: maze)
         }
         .padding()
+        .onChange(of: [rowsValue, colsValue]) { _ in
+            maze = Grid(rows: Int(rowsValue), cols: Int(colsValue))
+        }
     }
     
     func generateMaze() {
