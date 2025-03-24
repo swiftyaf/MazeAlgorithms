@@ -54,6 +54,23 @@ class Grid { // NW = 0,0
         return !currentCell.links.contains(where: { $0 === ajoiningCell })
     }
     
+    func walls(of cell: Cell) -> [Direction] {
+        var directions: [Direction] = []
+        if wallExists(currentCell: cell, direction: .north) {
+            directions.append(.north)
+        }
+        if wallExists(currentCell: cell, direction: .east) {
+            directions.append(.east)
+        }
+        if wallExists(currentCell: cell, direction: .south) {
+            directions.append(.south)
+        }
+        if wallExists(currentCell: cell, direction: .west) {
+            directions.append(.west)
+        }
+        return directions
+    }
+    
     func draw() {
         var topWall = ""
         for _ in 0..<cols {
