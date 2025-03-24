@@ -24,7 +24,7 @@ struct GridView: View {
             ForEach(0..<(grid.rows * grid.cols), id: \.self) { index in
                 let row = index / grid.cols
                 let col = index % grid.cols
-                let cell = grid.cell(at: row, col)!
+                let cell = grid.cell(at: Position(row, col))!
                 CellView(walls: grid.walls(of: cell), cell: cell)
             }
         }

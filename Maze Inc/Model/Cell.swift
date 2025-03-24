@@ -6,15 +6,13 @@
 //
 
 class Cell {
-    let row: Int
-    let col: Int
+    let position: Position
     var value: String = " "
     
     var links = [Cell]()
 
-    init(row: Int, col: Int) {
-        self.row = row
-        self.col = col
+    init(position: Position) {
+        self.position = position
     }
     
     func link(to cell: Cell) {

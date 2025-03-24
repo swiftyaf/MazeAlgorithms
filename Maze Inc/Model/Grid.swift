@@ -5,6 +5,9 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
+import SwiftUI
+
+@Observable
 class Grid { // NW = 0,0
     private var cells: [[Cell]]
     let rows: Int
@@ -21,24 +24,23 @@ class Grid { // NW = 0,0
         for row in 0..<rows {
             var rowCells: [Cell] = []
             for col in 0..<cols {
-                rowCells.append(Cell(row: row, col: col))
+                rowCells.append(Cell(position: Position(row, col)))
             }
             cells.append(rowCells)
         }
     }
     
-    func cell(at row: Int, _ col: Int) -> Cell? {
-        guard row >= 0, row < cells.count, col >= 0, col < cells[row].count else {
+    func cell(at position: Position) -> Cell? {
+        guard position.row >= 0, position.row < rows, position.col >= 0, position.col < cols else {
             return nil
         }
-        return cells[row][col]
+        return cells[position.row][position.col]
     }
     
     func cell(nextTo cell: Cell, direction: Direction) -> Cell? {
-        self.cell(
-            at: cell.row + direction.offset.vertical,
-            cell.col + direction.offset.horizontal
-        )
+        let nextCellPosition = Position(cell.position.row + direction.offset.vertical,
+                                        cell.position.col + direction.offset.horizontal)
+        return self.cell(at: nextCellPosition)
     }
     
     func link(cell1: Cell, cell2: Cell) {
@@ -83,7 +85,7 @@ class Grid { // NW = 0,0
             var rowString = "|"
             var wallString = "+"
             for col in 0..<cols {
-                if let cell = cell(at: row, col) {
+                if let cell = cell(at: Position(row, col)) {
                     rowString += " \(cell.value) "
                     if wallExists(currentCell: cell, direction: .east) {
                         rowString += "|"

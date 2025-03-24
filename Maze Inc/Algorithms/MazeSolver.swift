@@ -33,8 +33,3 @@ class MazeSolver { // Dijkstra
         maze.draw()
     }
 }
-
-struct Position: Hashable {
-    let row: Int
-    let col: Int
-}

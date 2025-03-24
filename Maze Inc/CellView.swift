@@ -24,6 +24,9 @@ struct CellView: View {
 }
 
 #Preview {
-    CellView(walls: [.west, .north], cell: Cell(row: 0, col: 0))
+    CellView(
+        walls: [.west, .north],
+        cell: Cell(position: Position(0, 0))
+    )
         .padding()
 }

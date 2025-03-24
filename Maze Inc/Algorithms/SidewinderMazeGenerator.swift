@@ -10,7 +10,7 @@ class SidewinderMazeGenerator: MazeGenerating {
         for row in 0..<grid.rows {
             var run = [Cell]()
             for col in 0..<grid.cols {
-                if let cell = grid.cell(at: row, col) {
+                if let cell = grid.cell(at: Position(row, col)) {
                     run.append(cell)
                     let atEastEdgeOfGrid = col == grid.cols - 1
                     let atNorthEdgeOfGrid = row == 0
