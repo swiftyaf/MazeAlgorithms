@@ -35,11 +35,16 @@ struct ContentView: View {
                     Text("9")
                 }
             }
-            Button("Generate Maze") {
-                generateMaze()
-            }
-            Button("Solve Maze") {
-                solveMaze()
+            VStack(spacing: 10) {
+                Button("Generate Maze") {
+                    generateMaze()
+                }
+                Button("Solve Maze NW->SE") {
+                    mazeManager.solveMaze()
+                }
+                Button("Longest Path") {
+                    mazeManager.longestPath()
+                }
             }
         }
         .padding()
@@ -50,10 +55,6 @@ struct ContentView: View {
     
     func generateMaze() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue))
-    }
-    
-    func solveMaze() {
-        mazeManager.solveMaze()
     }
 }
 

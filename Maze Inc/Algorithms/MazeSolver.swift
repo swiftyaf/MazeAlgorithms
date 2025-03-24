@@ -47,4 +47,12 @@ class MazeSolver { // Dijkstra
         }
         return breadcrumbs
     }
+    
+    func longestPath(maze: Grid) -> [Position] {
+        let distances = generateDistances(maze: maze, start: Position(0, 0))
+        let newStart = distances.keys.max(by: { distances[$0]! < distances[$1]! })!
+        let newDistances = generateDistances(maze: maze, start: newStart)
+        let newFinish = newDistances.keys.max(by: { newDistances[$0]! < newDistances[$1]! })!
+        return solveMaze(maze, start: newStart, end: newFinish)
+    }
 }

@@ -32,4 +32,12 @@ class MazeManager {
             cell.value = "●"
         }
     }
+    
+    func longestPath() {
+        let path = mazeSolver.longestPath(maze: maze)
+        for position in path {
+            let cell = maze.cell(at: position)!
+            cell.value = "●"
+        }
+    }
 }
