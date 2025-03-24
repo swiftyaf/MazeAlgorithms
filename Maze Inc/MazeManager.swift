@@ -27,17 +27,25 @@ class MazeManager {
             start: Position(0, 0),
             end: Position(maze.rows - 1, maze.cols - 1)
         )
-        for position in path {
-            let cell = maze.cell(at: position)!
-            cell.value = "●"
-        }
+        drawPath(path)
     }
     
     func longestPath() {
         let path = mazeSolver.longestPath(maze: maze)
-        for position in path {
+        drawPath(path)
+    }
+    
+    private func drawPath(_ path: [Position]) {
+        for i in 0..<path.count {
+            let position = path[i]
             let cell = maze.cell(at: position)!
-            cell.value = "●"
+            if i == 0 {
+                cell.value = "😎"
+            } else if i == path.count - 1 {
+                cell.value = "🧐"
+            } else {
+                cell.value = "●"
+            }
         }
     }
 }
