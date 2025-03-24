@@ -8,6 +8,7 @@
 class Cell {
     let row: Int
     let col: Int
+    var value: String = " "
     
     var links = [Cell]()
 

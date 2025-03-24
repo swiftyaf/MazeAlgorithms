@@ -25,7 +25,7 @@ struct GridView: View {
                 let row = index / grid.cols
                 let col = index % grid.cols
                 let cell = grid.cell(at: row, col)!
-                CellView(walls: grid.walls(of: cell))
+                CellView(walls: grid.walls(of: cell), cell: cell)
             }
         }
         .padding()

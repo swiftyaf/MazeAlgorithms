@@ -9,12 +9,12 @@ import SwiftUI
 
 struct CellView: View {
     let walls: [Direction]
+    let cell: Cell
     
     var body: some View {
         HStack {
-            Text("")
+            Text(cell.value)
         }
-        .background(Color.blue)
         .frame(width: 40, height: 40)
         .overlay {
             CellWalls(walls: walls)
@@ -24,6 +24,6 @@ struct CellView: View {
 }
 
 #Preview {
-    CellView(walls: [.west, .north])
+    CellView(walls: [.west, .north], cell: Cell(row: 0, col: 0))
         .padding()
 }
