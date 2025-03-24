@@ -1,0 +1,37 @@
+//
+//  GridView.swift
+//  Maze Inc
+//
+//  Created by Dimi Chakarov on 24/03/2025.
+//
+
+import SwiftUI
+
+struct GridView: View {
+    let grid: Grid
+    
+    var body: some View {
+        LazyVGrid(
+            columns: Array(
+                repeating: GridItem(
+                    .fixed(40),
+                    spacing: 0
+                ),
+                count: grid.cols
+            ),
+            spacing: 0
+        ) {
+            ForEach(0..<(grid.rows * grid.cols), id: \.self) { index in
+                let row = index / grid.cols
+                let col = index % grid.cols
+                let cell = grid.cell(at: row, col)!
+                CellView(walls: grid.walls(of: cell))
+            }
+        }
+        .padding()
+    }
+}
+
+#Preview {
+    GridView(grid: Grid(rows: 5, cols: 5))
+}
