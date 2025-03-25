@@ -88,6 +88,10 @@ class Grid { // NW = 0,0
         return directions
     }
     
+    func deadends() -> [Cell] {
+        cells.flatMap { $0 }.filter { $0.links.count == 1 }
+    }
+    
     func draw() {
         var topWall = ""
         for _ in 0..<cols {
