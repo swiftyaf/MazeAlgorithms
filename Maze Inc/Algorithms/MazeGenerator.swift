@@ -18,6 +18,9 @@ class MazeGenerator {
         case .aldousBroder:
             let mazeGenerator = AldousBroderMazeGenerator()
             mazeGenerator.generateMaze(in: grid)
+        case .wilson:
+            let mazeGenerator = WilsonMazeGenerator()
+            mazeGenerator.generateMaze(in: grid)
         }
         return grid
     }
@@ -27,4 +30,5 @@ enum MazeAlgorithm {
     case binaryTree
     case sidewinder
     case aldousBroder
+    case wilson
 }
