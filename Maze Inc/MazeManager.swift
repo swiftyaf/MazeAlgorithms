@@ -21,10 +21,10 @@ class MazeManager {
         maze = mazeGenerator.generateMaze(rows: rows, cols: cols, algorithm: algorithm)
     }
     
-    func solveMaze() {
+    func solveMaze(start: Position) {
         let path = mazeSolver.solveMaze(
             maze,
-            start: Position(maze.rows - 1, 0),
+            start: start,
             end: Position(maze.rows - 1, maze.cols - 1)
         )
         drawPath(path)
@@ -35,10 +35,11 @@ class MazeManager {
         drawPath(path)
     }
     
-    func colourMaze() {
+    func colourMaze(start: Position? = nil) {
+        let startPosition = start ?? Position(maze.rows/2, maze.cols/2)
         let distances = mazeSolver.generateDistances(
             maze: maze,
-            start: Position(maze.rows/2, maze.cols/2)
+            start: startPosition
         )
         for row in 0..<maze.rows {
             for col in 0..<maze.cols {

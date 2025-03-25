@@ -12,10 +12,11 @@ struct ContentView: View {
     @State private var colsValue: Double = 4.0
     @State private var mazeManager = MazeManager()
     @State private var mazeGenerated = false
+    @State private var startPosition = Position(0, 0)
 
     var body: some View {
         VStack {
-            GridView(grid: mazeManager.maze)
+            GridView(grid: mazeManager.maze, startPosition: $startPosition)
             Spacer()
             VStack(spacing: 0) {
                 Text("Rows: \(Int(rowsValue))")
@@ -46,7 +47,7 @@ struct ContentView: View {
                 }
                 HStack {
                     Button("Solve Maze") {
-                        mazeManager.solveMaze()
+                        mazeManager.solveMaze(start: startPosition)
                     }
                     .disabled(!mazeGenerated)
                     Button("Longest Path") {
@@ -56,7 +57,7 @@ struct ContentView: View {
                 }
                 HStack {
                     Button("Colour it!") {
-                        mazeManager.colourMaze()
+                        mazeManager.colourMaze(start: startPosition)
                     }
                     .disabled(!mazeGenerated)
                 }

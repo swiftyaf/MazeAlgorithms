@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GridView: View {
     let grid: Grid
+    @Binding var startPosition: Position
     
     var body: some View {
         LazyVGrid(
@@ -25,7 +26,14 @@ struct GridView: View {
                 let row = index / grid.cols
                 let col = index % grid.cols
                 let cell = grid.cell(at: Position(row, col))!
-                CellView(walls: grid.walls(of: cell), cell: cell)
+                
+                Button {
+                    grid.cell(at: startPosition)?.value = ""
+                    startPosition = Position(row, col)
+                    cell.value = "🧐"
+                } label: {
+                    CellView(walls: grid.walls(of: cell), cell: cell)
+                }
             }
         }
         .padding()
@@ -33,5 +41,5 @@ struct GridView: View {
 }
 
 #Preview {
-    GridView(grid: Grid(rows: 5, cols: 5))
+    GridView(grid: Grid(rows: 5, cols: 5), startPosition: .constant(Position(0, 0)))
 }
