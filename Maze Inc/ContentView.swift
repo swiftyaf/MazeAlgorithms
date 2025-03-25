@@ -73,11 +73,13 @@ struct ContentView: View {
     
     func generateMazeB() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .binaryTree)
+        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
     
     func generateMazeS() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
+        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
 }
