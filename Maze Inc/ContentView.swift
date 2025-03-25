@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var rowsValue: Double = 4.0
-    @State private var colsValue: Double = 4.0
+    @State private var rowsValue: Double = 10.0
+    @State private var colsValue: Double = 8.0
     @State private var mazeManager = MazeManager()
     @State private var mazeGenerated = false
     @State private var startPosition = Position(0, 0)
@@ -22,9 +22,9 @@ struct ContentView: View {
                 Text("Rows: \(Int(rowsValue))")
                 HStack {
                     Text("4")
-                    Slider(value: $rowsValue, in: 4...12, step: 1)
+                    Slider(value: $rowsValue, in: 4...11, step: 1)
                         .frame(width: 300)
-                    Text("12")
+                    Text("11")
                 }
             }
             VStack(spacing: 0) {

@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class MazeManager {
-    var maze = Grid(size: 4)
+    var maze = Grid(rows: 10, cols: 8)
     let mazeGenerator = MazeGenerator()
     let mazeSolver = MazeSolver()
 
