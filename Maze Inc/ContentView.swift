@@ -47,8 +47,13 @@ struct ContentView: View {
                     Button("Gen (A)") {
                         generateMazeA()
                     }
+                }
+                HStack {
                     Button("Gen (W)") {
                         generateMazeW()
+                    }
+                    Button("Gen (H)") {
+                        generateMazeH()
                     }
                 }
                 HStack {
@@ -60,8 +65,6 @@ struct ContentView: View {
                         mazeManager.longestPath()
                     }
                     .disabled(!mazeGenerated)
-                }
-                HStack {
                     Button("Colour it!") {
                         mazeManager.colourMaze(start: startPosition)
                     }
@@ -97,6 +100,12 @@ struct ContentView: View {
     
     func generateMazeW() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .wilson)
+        mazeManager.setStartPosition(startPosition)
+        mazeGenerated = true
+    }
+    
+    func generateMazeH() {
+        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .hunterKiller)
         mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
