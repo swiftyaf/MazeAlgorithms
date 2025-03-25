@@ -25,10 +25,10 @@ struct GridView: View {
             ForEach(0..<(grid.rows * grid.cols), id: \.self) { index in
                 let row = index / grid.cols
                 let col = index % grid.cols
-                let cell = grid.cell(at: Position(row, col))!
+                let cell = grid[row, col]!
                 
                 Button {
-                    grid.cell(at: startPosition)?.value = " "
+                    grid[startPosition]?.value = " "
                     startPosition = Position(row, col)
                     cell.value = "🧐"
                 } label: {

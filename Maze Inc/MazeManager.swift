@@ -44,7 +44,7 @@ class MazeManager {
         for row in 0..<maze.rows {
             for col in 0..<maze.cols {
                 let position = Position(row, col)
-                if let distance = distances[position], let cell = maze.cell(at: position) {
+                if let distance = distances[position], let cell = maze[position] {
                     cell.currentDistance = distance
                 }
             }
@@ -55,7 +55,7 @@ class MazeManager {
         for row in 0..<maze.rows {
             for col in 0..<maze.cols {
                 let position = Position(row, col)
-                if let cell = maze.cell(at: position) {
+                if let cell = maze[position] {
                     cell.value = " "
                 }
             }
@@ -66,7 +66,7 @@ class MazeManager {
         clearMaze()
         for i in 0..<path.count {
             let position = path[i]
-            let cell = maze.cell(at: position)!
+            let cell = maze[position]!
             if i == 0 {
                 cell.value = "😎"
             } else if i == path.count - 1 {

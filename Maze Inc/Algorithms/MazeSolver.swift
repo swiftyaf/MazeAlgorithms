@@ -9,7 +9,7 @@ class MazeSolver { // Dijkstra
     func generateDistances(maze: Grid, start: Position) -> [Position: Int] {
         var distances: [Position: Int] = [:]
         var frontier: [Cell] = []
-        guard let cell = maze.cell(at: start) else {
+        guard let cell = maze[start] else {
             return distances
         }
         frontier = [cell]
@@ -36,7 +36,7 @@ class MazeSolver { // Dijkstra
         var current = end
         var breadcrumbs = [end]
         while current != start {
-            guard let cell = maze.cell(at: current) else {
+            guard let cell = maze[current] else {
                 fatalError()
             }
             guard let previousCell = cell.links.first(where: { distances[$0.position]! < distances[current]! }) else {

@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class Grid { // NW = 0,0
-    private var cells: [[Cell]]
+    private let cells: [[Cell]]
     let rows: Int
     let cols: Int
     
@@ -20,7 +20,7 @@ class Grid { // NW = 0,0
     init(rows: Int, cols: Int) {
         self.rows = rows
         self.cols = cols
-        cells = []
+        var cells = [[Cell]]()
         for row in 0..<rows {
             var rowCells: [Cell] = []
             for col in 0..<cols {
@@ -28,19 +28,24 @@ class Grid { // NW = 0,0
             }
             cells.append(rowCells)
         }
+        self.cells = cells
     }
     
-    func cell(at position: Position) -> Cell? {
-        guard position.row >= 0, position.row < rows, position.col >= 0, position.col < cols else {
+    subscript(position: Position) -> Cell? {
+        self[position.row, position.col]
+    }
+    
+    subscript(row: Int, col: Int) -> Cell? {
+        guard row >= 0, row < rows, col >= 0, col < cols else {
             return nil
         }
-        return cells[position.row][position.col]
+        return cells[row][col]
     }
     
     func cell(nextTo cell: Cell, direction: Direction) -> Cell? {
         let nextCellPosition = Position(cell.position.row + direction.offset.vertical,
                                         cell.position.col + direction.offset.horizontal)
-        return self.cell(at: nextCellPosition)
+        return self[nextCellPosition]
     }
     
     func link(cell1: Cell, cell2: Cell) {
@@ -85,7 +90,7 @@ class Grid { // NW = 0,0
             var rowString = "|"
             var wallString = "+"
             for col in 0..<cols {
-                if let cell = cell(at: Position(row, col)) {
+                if let cell = self[row, col] {
                     rowString += " \(cell.value) "
                     if wallExists(currentCell: cell, direction: .east) {
                         rowString += "|"
