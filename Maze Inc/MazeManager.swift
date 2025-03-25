@@ -20,6 +20,10 @@ class MazeManager {
     
     func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) {
         maze = mazeGenerator.generateMaze(rows: rows, cols: cols, algorithm: algorithm)
+        let deadends = maze.deadends()
+        print("deadends: \(deadends.count)")
+        let path = mazeSolver.longestPath(maze: maze)
+        print("longest path length: \(path.count)")
     }
     
     func setStartPosition(_ position: Position) {
