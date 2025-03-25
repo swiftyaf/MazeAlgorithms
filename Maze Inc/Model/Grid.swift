@@ -48,6 +48,16 @@ class Grid { // NW = 0,0
         return self[nextCellPosition]
     }
     
+    func neighbours(of cell: Cell) -> [Cell] {
+        var neighbours: [Cell] = []
+        for direction in Direction.allCases {
+            if let neighbour = self.cell(nextTo: cell, direction: direction) {
+                neighbours.append(neighbour)
+            }
+        }
+        return neighbours
+    }
+    
     func link(cell1: Cell, cell2: Cell) {
         cell1.link(to: cell2)
         cell2.link(to: cell1)

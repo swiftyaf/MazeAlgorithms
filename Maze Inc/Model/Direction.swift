@@ -5,7 +5,7 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
-enum Direction {
+enum Direction: CaseIterable {
     case north
     case east
     case south
