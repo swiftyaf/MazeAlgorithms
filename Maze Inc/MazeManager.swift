@@ -51,7 +51,19 @@ class MazeManager {
         }
     }
     
+    private func clearMaze() {
+        for row in 0..<maze.rows {
+            for col in 0..<maze.cols {
+                let position = Position(row, col)
+                if let cell = maze.cell(at: position) {
+                    cell.value = " "
+                }
+            }
+        }
+    }
+    
     private func drawPath(_ path: [Position]) {
+        clearMaze()
         for i in 0..<path.count {
             let position = path[i]
             let cell = maze.cell(at: position)!

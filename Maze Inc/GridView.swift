@@ -28,7 +28,7 @@ struct GridView: View {
                 let cell = grid.cell(at: Position(row, col))!
                 
                 Button {
-                    grid.cell(at: startPosition)?.value = ""
+                    grid.cell(at: startPosition)?.value = " "
                     startPosition = Position(row, col)
                     cell.value = "🧐"
                 } label: {
