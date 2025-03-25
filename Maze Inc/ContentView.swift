@@ -38,11 +38,14 @@ struct ContentView: View {
             }
             VStack(spacing: 10) {
                 HStack {
-                    Button("Generate (BTree)") {
+                    Button("Generate (B)") {
                         generateMazeB()
                     }
-                    Button("Generate (SideW)") {
+                    Button("Generate (S)") {
                         generateMazeS()
+                    }
+                    Button("Generate (A)") {
+                        generateMazeA()
                     }
                 }
                 HStack {
@@ -79,6 +82,12 @@ struct ContentView: View {
     
     func generateMazeS() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
+        mazeManager.setStartPosition(startPosition)
+        mazeGenerated = true
+    }
+    
+    func generateMazeA() {
+        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .aldousBroder)
         mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
