@@ -16,14 +16,14 @@ struct CellView: View {
             Text(cell.value)
         }
         .frame(width: 40, height: 40)
-        .background(backgroundForCell(cell))
+        .background(backgroundView)
         .overlay {
             CellWalls(walls: walls)
                 .stroke(Color.black, lineWidth: 2)
         }
     }
     
-    func backgroundForCell(_ cell: Cell) -> some View {
+    var backgroundView: some View {
         if let distance = cell.currentDistance {
             let maxDistance: Double = 30
             let normalisedDistance = min(Double(distance), maxDistance)
@@ -42,5 +42,5 @@ struct CellView: View {
         walls: [.west, .north],
         cell: Cell(position: Position(0, 0))
     )
-        .padding()
+    .padding()
 }
