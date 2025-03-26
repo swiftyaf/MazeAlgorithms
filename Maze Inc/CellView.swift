@@ -10,6 +10,7 @@ import SwiftUI
 struct CellView: View {
     let walls: [Direction]
     let cell: Cell
+    let backgroundColorMode: BackgroundColorMode
     
     var body: some View {
         HStack {
@@ -24,14 +25,21 @@ struct CellView: View {
     }
     
     var backgroundView: some View {
-        if let distance = cell.currentDistance {
-            let maxDistance: Double = 30
-            let normalisedDistance = min(Double(distance), maxDistance)
-            let intensity = (maxDistance - normalisedDistance) / maxDistance
-            let dark = 1 * intensity
-            let light = 0.5 + 0.5 * intensity
-            return Color(red: dark, green: light, blue: light)
-        } else {
+        switch backgroundColorMode {
+        case .distance:
+            if let distance = cell.currentDistance {
+                let maxDistance: Double = 30
+                let normalisedDistance = min(Double(distance), maxDistance)
+                let intensity = (maxDistance - normalisedDistance) / maxDistance
+                let dark = 1 * intensity
+                let light = 0.5 + 0.5 * intensity
+                return Color(red: dark, green: light, blue: light)
+            } else {
+                return Color.clear
+            }
+        case .connections:
+            return Color(red: 1 - Double(walls.count) * 0.15, green: 0.2, blue: 0.2)
+        case .none:
             return Color.clear
         }
     }
@@ -40,7 +48,14 @@ struct CellView: View {
 #Preview {
     CellView(
         walls: [.west, .north],
-        cell: Cell(position: Position(0, 0))
+        cell: Cell(position: Position(0, 0)),
+        backgroundColorMode: .none
     )
     .padding()
+}
+
+enum BackgroundColorMode {
+    case distance
+    case connections
+    case none
 }

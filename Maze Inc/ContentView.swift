@@ -13,10 +13,11 @@ struct ContentView: View {
     @State private var mazeManager = MazeManager()
     @State private var mazeGenerated = false
     @State private var startPosition = Position(0, 0)
+    @State private var backgroundColorMode: BackgroundColorMode = .none
 
     var body: some View {
         VStack {
-            GridView(grid: mazeManager.maze, startPosition: $startPosition)
+            GridView(grid: mazeManager.maze, startPosition: $startPosition, backgroundColorMode: $backgroundColorMode)
             Spacer()
             VStack(spacing: 0) {
                 Text("Rows: \(Int(rowsValue))")
@@ -40,36 +41,49 @@ struct ContentView: View {
                 HStack {
                     Button("Gen (B)") {
                         generateMazeB()
+                        backgroundColorMode = .none
                     }
                     Button("Gen (S)") {
                         generateMazeS()
+                        backgroundColorMode = .none
                     }
                     Button("Gen (A)") {
                         generateMazeA()
+                        backgroundColorMode = .none
                     }
                 }
                 HStack {
                     Button("Gen (W)") {
                         generateMazeW()
+                        backgroundColorMode = .none
                     }
                     Button("Gen (H)") {
                         generateMazeH()
+                        backgroundColorMode = .none
                     }
                     Button("Gen (R)") {
                         generateMazeR()
+                        backgroundColorMode = .none
                     }
                 }
                 HStack {
                     Button("Solve") {
                         mazeManager.solveMaze(start: startPosition)
+                        backgroundColorMode = .none
                     }
                     .disabled(!mazeGenerated)
                     Button("Longest Path") {
                         mazeManager.longestPath()
+                        backgroundColorMode = .none
                     }
                     .disabled(!mazeGenerated)
                     Button("Colour it!") {
                         mazeManager.colourMaze(start: startPosition)
+                        backgroundColorMode = .distance
+                    }
+                    .disabled(!mazeGenerated)
+                    Button("Connections!") {
+                        backgroundColorMode = .connections
                     }
                     .disabled(!mazeGenerated)
                 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct GridView: View {
     let grid: Grid
     @Binding var startPosition: Position
+    @Binding var backgroundColorMode: BackgroundColorMode
     
     var body: some View {
         LazyVGrid(
@@ -32,7 +33,7 @@ struct GridView: View {
                     startPosition = Position(row, col)
                     cell.value = "🧐"
                 } label: {
-                    CellView(walls: grid.walls(of: cell), cell: cell)
+                    CellView(walls: grid.walls(of: cell), cell: cell, backgroundColorMode: backgroundColorMode)
                 }
             }
         }
@@ -41,5 +42,9 @@ struct GridView: View {
 }
 
 #Preview {
-    GridView(grid: Grid(rows: 5, cols: 5), startPosition: .constant(Position(0, 0)))
+    GridView(
+        grid: Grid(rows: 5, cols: 5),
+        startPosition: .constant(Position(0, 0)),
+        backgroundColorMode: .constant(.none)
+    )
 }
