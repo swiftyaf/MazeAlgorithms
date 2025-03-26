@@ -11,8 +11,6 @@ import SwiftUI
 class Cell {
     let position: Position
     var value: String = " "
-    var currentDistance: Int?
-    
     var links = [Cell]()
 
     init(position: Position) {
@@ -21,10 +19,5 @@ class Cell {
     
     func link(to cell: Cell) {
         links.append(cell)
-    }
-    
-    func unlink(from cell: Cell) {
-        links.removeAll { $0 === cell }
-        cell.unlink(from: self)
     }
 }

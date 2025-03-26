@@ -10,6 +10,7 @@ import SwiftUI
 struct CellView: View {
     let walls: [Direction]
     let cell: Cell
+    let distance: Int?
     let backgroundColorMode: BackgroundColorMode
     
     var body: some View {
@@ -27,7 +28,7 @@ struct CellView: View {
     var backgroundView: some View {
         switch backgroundColorMode {
         case .distance:
-            if let distance = cell.currentDistance {
+            if let distance {
                 let maxDistance: Double = 30
                 let normalisedDistance = min(Double(distance), maxDistance)
                 let intensity = (maxDistance - normalisedDistance) / maxDistance
@@ -49,6 +50,7 @@ struct CellView: View {
     CellView(
         walls: [.west, .north],
         cell: Cell(position: Position(0, 0)),
+        distance: nil,
         backgroundColorMode: .none
     )
     .padding()

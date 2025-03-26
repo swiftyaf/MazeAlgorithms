@@ -13,10 +13,6 @@ class Grid { // NW = 0,0
     let rows: Int
     let cols: Int
     
-    convenience init(size: Int) {
-        self.init(rows: size, cols: size)
-    }
-    
     init(rows: Int, cols: Int) {
         self.rows = rows
         self.cols = cols
@@ -64,11 +60,11 @@ class Grid { // NW = 0,0
     }
     
     func wallExists(currentCell: Cell, direction: Direction) -> Bool {
-        guard let ajoiningCell = cell(nextTo: currentCell, direction: direction) else {
+        guard let neighbour = cell(nextTo: currentCell, direction: direction) else {
             return true
         }
         
-        return !currentCell.links.contains(where: { $0 === ajoiningCell })
+        return !currentCell.links.contains(where: { $0 === neighbour })
     }
     
     func walls(of cell: Cell) -> [Direction] {

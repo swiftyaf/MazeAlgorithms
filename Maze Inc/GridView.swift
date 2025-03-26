@@ -11,7 +11,8 @@ struct GridView: View {
     let grid: Grid
     @Binding var startPosition: Position
     @Binding var backgroundColorMode: BackgroundColorMode
-    
+    @Binding var distances: [Position: Int]
+
     var body: some View {
         LazyVGrid(
             columns: Array(
@@ -33,7 +34,12 @@ struct GridView: View {
                     startPosition = Position(row, col)
                     cell.value = "🧐"
                 } label: {
-                    CellView(walls: grid.walls(of: cell), cell: cell, backgroundColorMode: backgroundColorMode)
+                    CellView(
+                        walls: grid.walls(of: cell),
+                        cell: cell,
+                        distance: distances[cell.position],
+                        backgroundColorMode: backgroundColorMode
+                    )
                 }
             }
         }
@@ -45,6 +51,7 @@ struct GridView: View {
     GridView(
         grid: Grid(rows: 5, cols: 5),
         startPosition: .constant(Position(0, 0)),
-        backgroundColorMode: .constant(.none)
+        backgroundColorMode: .constant(.none),
+        distances: .constant([:])
     )
 }

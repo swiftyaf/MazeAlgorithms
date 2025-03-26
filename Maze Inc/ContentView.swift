@@ -17,7 +17,12 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            GridView(grid: mazeManager.maze, startPosition: $startPosition, backgroundColorMode: $backgroundColorMode)
+            GridView(
+                grid: mazeManager.maze,
+                startPosition: $startPosition,
+                backgroundColorMode: $backgroundColorMode,
+                distances: $mazeManager.distances
+            )
             Spacer()
             VStack(spacing: 0) {
                 Text("Rows: \(Int(rowsValue))")
@@ -78,7 +83,7 @@ struct ContentView: View {
                     }
                     .disabled(!mazeGenerated)
                     Button("Colour it!") {
-                        mazeManager.colourMaze(start: startPosition)
+                        mazeManager.calculateDistances(start: startPosition)
                         backgroundColorMode = .distance
                     }
                     .disabled(!mazeGenerated)

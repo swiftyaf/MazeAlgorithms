@@ -6,7 +6,7 @@
 //
 
 class MazeSolver { // Dijkstra
-    func generateDistances(maze: Grid, start: Position) -> [Position: Int] {
+    func calculateDistances(maze: Grid, start: Position) -> [Position: Int] {
         var distances: [Position: Int] = [:]
         var frontier: [Cell] = []
         guard let cell = maze[start] else {
@@ -32,7 +32,7 @@ class MazeSolver { // Dijkstra
     }
     
     func solveMaze(_ maze: Grid, start: Position, end: Position) -> [Position] {
-        let distances = generateDistances(maze: maze, start: start)
+        let distances = calculateDistances(maze: maze, start: start)
         var current = end
         var breadcrumbs = [end]
         while current != start {
@@ -49,9 +49,9 @@ class MazeSolver { // Dijkstra
     }
     
     func longestPath(maze: Grid) -> [Position] {
-        let distances = generateDistances(maze: maze, start: Position(0, 0))
+        let distances = calculateDistances(maze: maze, start: Position(0, 0))
         let newStart = distances.keys.max(by: { distances[$0]! < distances[$1]! })!
-        let newDistances = generateDistances(maze: maze, start: newStart)
+        let newDistances = calculateDistances(maze: maze, start: newStart)
         let newFinish = newDistances.keys.max(by: { newDistances[$0]! < newDistances[$1]! })!
         return solveMaze(maze, start: newStart, end: newFinish)
     }

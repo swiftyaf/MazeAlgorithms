@@ -12,7 +12,7 @@ class MazeManager {
     var maze = Grid(rows: 12, cols: 12)
     let mazeGenerator = MazeGenerator()
     let mazeSolver = MazeSolver()
-
+    var distances = [Position: Int]()
     
     func updateGrid(rows: Int, cols: Int) {
         maze = Grid(rows: rows, cols: cols)
@@ -44,20 +44,12 @@ class MazeManager {
         drawPath(path)
     }
     
-    func colourMaze(start: Position? = nil) {
+    func calculateDistances(start: Position? = nil) {
         let startPosition = start ?? Position(maze.rows/2, maze.cols/2)
-        let distances = mazeSolver.generateDistances(
+        distances = mazeSolver.calculateDistances(
             maze: maze,
             start: startPosition
         )
-        for row in 0..<maze.rows {
-            for col in 0..<maze.cols {
-                let position = Position(row, col)
-                if let distance = distances[position], let cell = maze[position] {
-                    cell.currentDistance = distance
-                }
-            }
-        }
     }
     
     private func clearMaze() {
