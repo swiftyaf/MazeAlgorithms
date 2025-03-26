@@ -87,6 +87,7 @@ struct ContentView: View {
                     }
                     .disabled(!mazeGenerated)
                     Button("Connections!") {
+                        mazeManager.clearMaze()
                         backgroundColorMode = .connections
                     }
                     .disabled(!mazeGenerated)

@@ -31,10 +31,12 @@ class MazeManager {
     }
     
     func solveMaze() {
+        let start = path.first!
+        let end = path.last! != path.first! ? path.last! : Position(maze.rows - 1, maze.cols - 1)
         path = mazeSolver.solveMaze(
             maze,
-            start: path.first!,
-            end: Position(maze.rows - 1, maze.cols - 1)
+            start: start,
+            end: end
         ).reversed()
     }
 
@@ -49,7 +51,7 @@ class MazeManager {
         )
     }
     
-    private func clearMaze() {
+    func clearMaze() {
         path = [Position(0, 0)]
     }
 }

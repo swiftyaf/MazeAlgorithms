@@ -30,7 +30,11 @@ struct GridView: View {
                 let cell = grid[row, col]!
                 
                 Button {
-                    path = [Position(row, col)]
+                    if path.count == 1 && path.first != Position(row, col) {
+                        path.append(Position(row, col))
+                    } else {
+                        path = [Position(row, col)]
+                    }
                 } label: {
                     CellView(
                         walls: grid.walls(of: cell),
