@@ -55,6 +55,9 @@ struct ContentView: View {
                     Button("Gen (H)") {
                         generateMazeH()
                     }
+                    Button("Gen (R)") {
+                        generateMazeR()
+                    }
                 }
                 HStack {
                     Button("Solve") {
@@ -106,6 +109,12 @@ struct ContentView: View {
     
     func generateMazeH() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .hunterKiller)
+        mazeManager.setStartPosition(startPosition)
+        mazeGenerated = true
+    }
+    
+    func generateMazeR() {
+        mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .recursiveBacktracker)
         mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }

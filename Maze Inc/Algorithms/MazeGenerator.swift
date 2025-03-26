@@ -24,6 +24,9 @@ class MazeGenerator {
         case .hunterKiller:
             let mazeGenerator = HunterKillerMazeGenerator()
             mazeGenerator.generateMaze(in: grid)
+        case .recursiveBacktracker:
+            let mazeGenerator = RecursiveBacktrackerMazeGenerator()
+            mazeGenerator.generateMaze(in: grid)
         }
         return grid
     }
@@ -35,4 +38,5 @@ enum MazeAlgorithm {
     case aldousBroder
     case wilson
     case hunterKiller
+    case recursiveBacktracker
 }
