@@ -10,10 +10,11 @@ import SwiftUI
 @Observable
 class Grid { // NW = 0,0
     private let cells: [[Cell]]
+    private let maskedCells: [Position]
     let rows: Int
     let cols: Int
     
-    init(rows: Int, cols: Int) {
+    init(rows: Int, cols: Int, maskedCells: [Position] = []) {
         self.rows = rows
         self.cols = cols
         var cells = [[Cell]]()
@@ -25,6 +26,7 @@ class Grid { // NW = 0,0
             cells.append(rowCells)
         }
         self.cells = cells
+        self.maskedCells = maskedCells
     }
     
     subscript(position: Position) -> Cell? {
@@ -33,6 +35,9 @@ class Grid { // NW = 0,0
     
     subscript(row: Int, col: Int) -> Cell? {
         guard row >= 0, row < rows, col >= 0, col < cols else {
+            return nil
+        }
+        guard !maskedCells.contains(where: { $0.row == row && $0.col == col }) else {
             return nil
         }
         return cells[row][col]
