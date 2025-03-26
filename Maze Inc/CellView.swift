@@ -12,10 +12,11 @@ struct CellView: View {
     let cell: Cell
     let distance: Int?
     let backgroundColorMode: BackgroundColorMode
+    let value: String
     
     var body: some View {
         HStack {
-            Text(cell.value)
+            Text(value)
         }
         .frame(width: 30, height: 30)
         .background(backgroundView)
@@ -51,7 +52,8 @@ struct CellView: View {
         walls: [.west, .north],
         cell: Cell(position: Position(0, 0)),
         distance: nil,
-        backgroundColorMode: .none
+        backgroundColorMode: .none,
+        value: " "
     )
     .padding()
 }

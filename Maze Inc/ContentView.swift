@@ -12,16 +12,15 @@ struct ContentView: View {
     @State private var colsValue: Double = 12.0
     @State private var mazeManager = MazeManager()
     @State private var mazeGenerated = false
-    @State private var startPosition = Position(0, 0)
     @State private var backgroundColorMode: BackgroundColorMode = .none
 
     var body: some View {
         VStack {
             GridView(
                 grid: mazeManager.maze,
-                startPosition: $startPosition,
                 backgroundColorMode: $backgroundColorMode,
-                distances: $mazeManager.distances
+                distances: $mazeManager.distances,
+                path: $mazeManager.path
             )
             Spacer()
             VStack(spacing: 0) {
@@ -73,7 +72,7 @@ struct ContentView: View {
                 }
                 HStack {
                     Button("Solve") {
-                        mazeManager.solveMaze(start: startPosition)
+                        mazeManager.solveMaze()
                         backgroundColorMode = .none
                     }
                     .disabled(!mazeGenerated)
@@ -83,7 +82,7 @@ struct ContentView: View {
                     }
                     .disabled(!mazeGenerated)
                     Button("Colour it!") {
-                        mazeManager.calculateDistances(start: startPosition)
+                        mazeManager.calculateDistances()
                         backgroundColorMode = .distance
                     }
                     .disabled(!mazeGenerated)
@@ -104,37 +103,31 @@ struct ContentView: View {
     
     func generateMazeB() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .binaryTree)
-        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
     
     func generateMazeS() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .sidewinder)
-        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
     
     func generateMazeA() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .aldousBroder)
-        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
     
     func generateMazeW() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .wilson)
-        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
     
     func generateMazeH() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .hunterKiller)
-        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
     
     func generateMazeR() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: .recursiveBacktracker)
-        mazeManager.setStartPosition(startPosition)
         mazeGenerated = true
     }
 }

@@ -87,35 +87,4 @@ class Grid { // NW = 0,0
     func deadends() -> [Cell] {
         cells.flatMap { $0 }.filter { $0.links.count == 1 }
     }
-    
-    func draw() {
-        var topWall = ""
-        for _ in 0..<cols {
-            topWall += "+---"
-        }
-        topWall += "+"
-        print(topWall)
-
-        for row in 0..<rows {
-            var rowString = "|"
-            var wallString = "+"
-            for col in 0..<cols {
-                if let cell = self[row, col] {
-                    rowString += " \(cell.value) "
-                    if wallExists(currentCell: cell, direction: .east) {
-                        rowString += "|"
-                    } else {
-                        rowString += " "
-                    }
-                    if wallExists(currentCell: cell, direction: .south) {
-                        wallString += "---+"
-                    } else {
-                        wallString += "   +"
-                    }
-                }
-            }
-            print(rowString)
-            print(wallString)
-        }
-    }
 }

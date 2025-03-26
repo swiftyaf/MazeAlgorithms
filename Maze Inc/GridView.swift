@@ -9,9 +9,9 @@ import SwiftUI
 
 struct GridView: View {
     let grid: Grid
-    @Binding var startPosition: Position
     @Binding var backgroundColorMode: BackgroundColorMode
     @Binding var distances: [Position: Int]
+    @Binding var path: [Position]
 
     var body: some View {
         LazyVGrid(
@@ -30,28 +30,38 @@ struct GridView: View {
                 let cell = grid[row, col]!
                 
                 Button {
-                    grid[startPosition]?.value = " "
-                    startPosition = Position(row, col)
-                    cell.value = "🧐"
+                    path = [Position(row, col)]
                 } label: {
                     CellView(
                         walls: grid.walls(of: cell),
                         cell: cell,
                         distance: distances[cell.position],
-                        backgroundColorMode: backgroundColorMode
+                        backgroundColorMode: backgroundColorMode,
+                        value: value(at: cell.position)
                     )
                 }
             }
         }
         .padding()
     }
+    
+    private func value(at position: Position) -> String {
+        guard path.contains(position) else { return " " }
+        if position == path.first {
+            return "🧐"
+        } else if position == path.last {
+            return "😎"
+        } else {
+            return "●"
+        }
+    }
 }
 
 #Preview {
     GridView(
         grid: Grid(rows: 5, cols: 5),
-        startPosition: .constant(Position(0, 0)),
         backgroundColorMode: .constant(.none),
-        distances: .constant([:])
+        distances: .constant([:]),
+        path: .constant([Position(0, 0), Position(1, 1), Position(2, 2), Position(3, 3), Position(4, 4)])
     )
 }

@@ -13,68 +13,43 @@ class MazeManager {
     let mazeGenerator = MazeGenerator()
     let mazeSolver = MazeSolver()
     var distances = [Position: Int]()
-    
+    var path = [Position(0, 0)]
+
     func updateGrid(rows: Int, cols: Int) {
+        clearMaze()
+        distances = [:]
         maze = Grid(rows: rows, cols: cols)
     }
     
     func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) {
+        clearMaze()
         maze = mazeGenerator.generateMaze(rows: rows, cols: cols, algorithm: algorithm)
         let deadends = maze.deadends()
         print("deadends: \(deadends.count)")
-        let path = mazeSolver.longestPath(maze: maze)
-        print("longest path length: \(path.count)")
+        let longestPath = mazeSolver.longestPath(maze: maze)
+        print("longest path length: \(longestPath.count)")
     }
     
-    func setStartPosition(_ position: Position) {
-        maze[position]?.value = "🧐"
-    }
-    
-    func solveMaze(start: Position) {
-        let path = mazeSolver.solveMaze(
+    func solveMaze() {
+        path = mazeSolver.solveMaze(
             maze,
-            start: start,
+            start: path.first!,
             end: Position(maze.rows - 1, maze.cols - 1)
-        )
-        drawPath(path)
+        ).reversed()
     }
-    
+
     func longestPath() {
-        let path = mazeSolver.longestPath(maze: maze)
-        drawPath(path)
+        path = mazeSolver.longestPath(maze: maze)
     }
     
-    func calculateDistances(start: Position? = nil) {
-        let startPosition = start ?? Position(maze.rows/2, maze.cols/2)
+    func calculateDistances() {
         distances = mazeSolver.calculateDistances(
             maze: maze,
-            start: startPosition
+            start: path.first!
         )
     }
     
     private func clearMaze() {
-        for row in 0..<maze.rows {
-            for col in 0..<maze.cols {
-                let position = Position(row, col)
-                if let cell = maze[position] {
-                    cell.value = " "
-                }
-            }
-        }
-    }
-    
-    private func drawPath(_ path: [Position]) {
-        clearMaze()
-        for i in 0..<path.count {
-            let position = path[i]
-            let cell = maze[position]!
-            if i == 0 {
-                cell.value = "😎"
-            } else if i == path.count - 1 {
-                cell.value = "🧐"
-            } else {
-                cell.value = "●"
-            }
-        }
+        path = [Position(0, 0)]
     }
 }

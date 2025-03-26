@@ -10,7 +10,6 @@ import SwiftUI
 @Observable
 class Cell {
     let position: Position
-    var value: String = " "
     var links = [Cell]()
 
     init(position: Position) {
