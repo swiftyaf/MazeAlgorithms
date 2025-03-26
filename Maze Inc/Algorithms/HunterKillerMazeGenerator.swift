@@ -7,11 +7,7 @@
 
 class HunterKillerMazeGenerator: MazeGenerating {
     func generateMaze(in grid: Grid) {
-        let randomPosition = Position(
-            Int.random(in: 0..<grid.rows),
-            Int.random(in: 0..<grid.cols)
-        )
-        var currentCell = grid[randomPosition]
+        var currentCell: Cell? = grid.randomCell()
         
         while let cell = currentCell {
             let unvisitedNeighbours = grid.neighbours(of: cell).filter { $0.links.isEmpty }

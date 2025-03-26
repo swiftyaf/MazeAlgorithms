@@ -38,6 +38,12 @@ class Grid { // NW = 0,0
         return cells[row][col]
     }
     
+    func randomCell() -> Cell {
+        let randomRow = Int.random(in: 0..<rows)
+        let randomCol = Int.random(in: 0..<cols)
+        return self[randomRow, randomCol] ?? randomCell()
+    }
+    
     func cell(nextTo cell: Cell, direction: Direction) -> Cell? {
         let nextCellPosition = Position(cell.position.row + direction.offset.vertical,
                                         cell.position.col + direction.offset.horizontal)

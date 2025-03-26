@@ -8,11 +8,7 @@
 class AldousBroderMazeGenerator: MazeGenerating {
     func generateMaze(in grid: Grid) {
         var unvisited = grid.rows * grid.cols - 1
-        let randomPosition = Position(
-            Int.random(in: 0..<grid.rows),
-            Int.random(in: 0..<grid.cols)
-        )
-        var cell = grid[randomPosition]!
+        var cell = grid.randomCell()
         
         while unvisited > 0 {
             let neighbour = grid.neighbours(of: cell).randomElement()!

@@ -7,12 +7,7 @@
 
 class RecursiveBacktrackerMazeGenerator: MazeGenerator {
     func generateMaze(in grid: Grid) {
-        let randomPosition = Position(
-            Int.random(in: 0..<grid.rows),
-            Int.random(in: 0..<grid.cols)
-        )
-        var currentCell = grid[randomPosition]!
-        var stack = [currentCell]
+        var stack = [grid.randomCell()]
         
         while !stack.isEmpty {
             let current = stack.last!
