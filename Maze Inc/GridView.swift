@@ -27,22 +27,26 @@ struct GridView: View {
             ForEach(0..<(grid.rows * grid.cols), id: \.self) { index in
                 let row = index / grid.cols
                 let col = index % grid.cols
-                let cell = grid[row, col]!
-                
-                Button {
-                    if path.count == 1 && path.first != Position(row, col) {
-                        path.append(Position(row, col))
-                    } else {
-                        path = [Position(row, col)]
+                if let cell = grid[row, col] {
+                    Button {
+                        if path.count == 1 && path.first != Position(row, col) {
+                            path.append(Position(row, col))
+                        } else {
+                            path = [Position(row, col)]
+                        }
+                    } label: {
+                        CellView(
+                            walls: grid.walls(of: cell),
+                            cell: cell,
+                            distance: distances[cell.position],
+                            backgroundColorMode: backgroundColorMode,
+                            value: value(at: cell.position)
+                        )
                     }
-                } label: {
-                    CellView(
-                        walls: grid.walls(of: cell),
-                        cell: cell,
-                        distance: distances[cell.position],
-                        backgroundColorMode: backgroundColorMode,
-                        value: value(at: cell.position)
-                    )
+                } else { // masked cell
+                    Color.black
+                        .frame(width: 30, height: 30)
+
                 }
             }
         }

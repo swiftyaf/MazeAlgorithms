@@ -20,13 +20,14 @@ class HunterKillerMazeGenerator: MazeGenerating {
                 currentCell = nil
                 for i in 0..<grid.rows * grid.cols {
                     let position = Position(i / grid.cols, i % grid.cols)
-                    let cell = grid[position]!
-                    let visitedNeighbours = grid.neighbours(of: cell).filter { !$0.links.isEmpty }
-                    if cell.links.isEmpty && !visitedNeighbours.isEmpty {
-                        currentCell = cell
-                        let neighbour = visitedNeighbours.randomElement()!
-                        grid.link(cell1: cell, cell2: neighbour)
-                        break
+                    if let cell = grid[position] {
+                        let visitedNeighbours = grid.neighbours(of: cell).filter { !$0.links.isEmpty }
+                        if cell.links.isEmpty && !visitedNeighbours.isEmpty {
+                            currentCell = cell
+                            let neighbour = visitedNeighbours.randomElement()!
+                            grid.link(cell1: cell, cell2: neighbour)
+                            break
+                        }
                     }
                 }
             }

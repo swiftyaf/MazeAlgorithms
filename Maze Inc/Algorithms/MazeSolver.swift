@@ -49,7 +49,7 @@ class MazeSolver { // Dijkstra
     }
     
     func longestPath(maze: Grid) -> [Position] {
-        let distances = calculateDistances(maze: maze, start: Position(0, 0))
+        let distances = calculateDistances(maze: maze, start: maze.randomCell().position)
         let newStart = distances.keys.max(by: { distances[$0]! < distances[$1]! })!
         let newDistances = calculateDistances(maze: maze, start: newStart)
         let newFinish = newDistances.keys.max(by: { newDistances[$0]! < newDistances[$1]! })!

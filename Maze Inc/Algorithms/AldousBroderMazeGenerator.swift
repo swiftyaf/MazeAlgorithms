@@ -7,7 +7,7 @@
 
 class AldousBroderMazeGenerator: MazeGenerating {
     func generateMaze(in grid: Grid) {
-        var unvisited = grid.rows * grid.cols - 1
+        var unvisited = grid.totalCells - 1
         var cell = grid.randomCell()
         
         while unvisited > 0 {

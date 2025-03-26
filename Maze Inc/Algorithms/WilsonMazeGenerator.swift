@@ -10,7 +10,9 @@ class WilsonMazeGenerator: MazeGenerating {
         var unvisitedCells = [Position]()
         for row in 0..<grid.rows {
             for col in 0..<grid.cols {
-                unvisitedCells.append(Position(row, col))
+                if let cell = grid[Position(row, col)] {
+                    unvisitedCells.append(cell.position)
+                }
             }
         }
         let first = unvisitedCells.randomElement()!

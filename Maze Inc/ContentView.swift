@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var rowsValue: Double = 12.0
     @State private var colsValue: Double = 12.0
+    @State private var maskedCellCount: Double = 0.0
     @State private var mazeManager = MazeManager()
     @State private var mazeGenerated = false
     @State private var backgroundColorMode: BackgroundColorMode = .none
@@ -27,9 +28,9 @@ struct ContentView: View {
                 Text("Rows: \(Int(rowsValue))")
                 HStack {
                     Text("4")
-                    Slider(value: $rowsValue, in: 4...15, step: 1)
+                    Slider(value: $rowsValue, in: 4...12, step: 1)
                         .frame(width: 300)
-                    Text("15")
+                    Text("12")
                 }
             }
             VStack(spacing: 0) {
@@ -41,16 +42,27 @@ struct ContentView: View {
                     Text("12")
                 }
             }
+            VStack(spacing: 0) {
+                Text("Disallowed Cells: \(Int(maskedCellCount))")
+                HStack {
+                    Text("0")
+                    Slider(value: $maskedCellCount, in: 0...4, step: 1)
+                        .frame(width: 300)
+                    Text("4")
+                }
+            }
             VStack(spacing: 10) {
                 HStack {
                     Button("Gen (B)") {
                         generateMazeB()
                         backgroundColorMode = .none
                     }
+                    .disabled(maskedCellCount > 0)
                     Button("Gen (S)") {
                         generateMazeS()
                         backgroundColorMode = .none
                     }
+                    .disabled(maskedCellCount > 0)
                     Button("Gen (A)") {
                         generateMazeA()
                         backgroundColorMode = .none
@@ -96,8 +108,8 @@ struct ContentView: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding()
-        .onChange(of: [rowsValue, colsValue]) { _ in
-            mazeManager.updateGrid(rows: Int(rowsValue), cols: Int(colsValue))
+        .onChange(of: [rowsValue, colsValue, maskedCellCount]) { _ in
+            mazeManager.updateGrid(rows: Int(rowsValue), cols: Int(colsValue), maskedCellCount: Int(maskedCellCount))
             mazeGenerated = false
         }
     }

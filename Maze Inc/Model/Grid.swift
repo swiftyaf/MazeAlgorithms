@@ -13,6 +13,9 @@ class Grid { // NW = 0,0
     private let maskedCells: [Position]
     let rows: Int
     let cols: Int
+    var totalCells: Int {
+        rows * cols - maskedCells.count
+    }
     
     init(rows: Int, cols: Int, maskedCells: [Position] = []) {
         self.rows = rows

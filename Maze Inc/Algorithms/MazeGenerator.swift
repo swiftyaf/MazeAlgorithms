@@ -6,8 +6,11 @@
 //
 
 class MazeGenerator {
-    func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm = .binaryTree) -> Grid {
-        let grid = Grid(rows: rows, cols: cols)
+    func generateMaze(rows: Int, cols: Int, maskedCells: [Position], algorithm: MazeAlgorithm) -> Grid {
+        if [.binaryTree, .sidewinder].contains(algorithm) && !maskedCells.isEmpty {
+            fatalError()
+        }
+        let grid = Grid(rows: rows, cols: cols, maskedCells: maskedCells)
         switch algorithm {
         case .binaryTree:
             let mazeGenerator = BinaryTreeMazeGenerator()
