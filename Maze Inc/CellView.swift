@@ -15,7 +15,7 @@ struct CellView: View {
         HStack {
             Text(cell.value)
         }
-        .frame(width: 40, height: 40)
+        .frame(width: 30, height: 30)
         .background(backgroundView)
         .overlay {
             CellWalls(walls: walls)

@@ -15,7 +15,7 @@ struct GridView: View {
         LazyVGrid(
             columns: Array(
                 repeating: GridItem(
-                    .fixed(40),
+                    .fixed(30),
                     spacing: 0
                 ),
                 count: grid.cols
