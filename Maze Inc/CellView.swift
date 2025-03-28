@@ -41,7 +41,7 @@ struct CellView: View {
                 return Color.clear
             }
         case .connections:
-            return Color(red: 1 - Double(walls.count) * 0.2, green: 0.2, blue: cell.weight > 1 ? 1 : 0.2)
+            return Color(red: 1 - Double(walls.count) * 0.2, green: 0.2, blue: 0.2)
         case .none:
             return Color.clear
         }
@@ -51,7 +51,7 @@ struct CellView: View {
 #Preview {
     CellView(
         walls: [.west, .north],
-        cell: Cell(position: Position(0, 0), weight: 1),
+        cell: Cell(position: Position(0, 0)),
         weight: nil,
         maxWeight: nil,
         backgroundColorMode: .none,

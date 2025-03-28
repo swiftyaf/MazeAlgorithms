@@ -13,13 +13,13 @@ class MazeSolver { // Dijkstra
             return weights
         }
         pending = [cell]
-        weights[cell.position] = cell.weight
+        weights[cell.position] = maze.cellWeights[cell.position]
         
         while !pending.isEmpty {
             pending.sort { weights[$0.position]! < weights[$1.position]! }
             let currentCell = pending.removeFirst()
             currentCell.links.forEach { neighbour in
-                let totalWeight = weights[currentCell.position]! + neighbour.weight
+                let totalWeight = weights[currentCell.position]! + maze.cellWeights[neighbour.position]!
                 if weights[neighbour.position] == nil || weights[neighbour.position]! > totalWeight {
                     weights[neighbour.position] = totalWeight
                     pending.append(neighbour)

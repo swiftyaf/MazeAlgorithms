@@ -11,6 +11,7 @@ import SwiftUI
 class Grid { // NW = 0,0
     private let cells: [[Cell]]
     private let maskedCells: [Position]
+    let cellWeights: [Position: Int]
     let rows: Int
     let cols: Int
     var totalCells: Int {
@@ -18,6 +19,7 @@ class Grid { // NW = 0,0
     }
     
     init(rows: Int, cols: Int, maskedCells: [Position] = [], weights: [Position: Int] = [:]) {
+        var cellWeights: [Position: Int] = [:]
         self.rows = rows
         self.cols = cols
         var cells = [[Cell]]()
@@ -25,13 +27,14 @@ class Grid { // NW = 0,0
             var rowCells: [Cell] = []
             for col in 0..<cols {
                 let position = Position(row, col)
-                let weight = weights[position] ?? 1
-                rowCells.append(Cell(position: position, weight: weight))
+                rowCells.append(Cell(position: position))
+                cellWeights[position] = weights[position] ?? 1
             }
             cells.append(rowCells)
         }
         self.cells = cells
         self.maskedCells = maskedCells
+        self.cellWeights = cellWeights
     }
     
     subscript(position: Position) -> Cell? {
