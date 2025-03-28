@@ -17,14 +17,16 @@ class Grid { // NW = 0,0
         rows * cols - maskedCells.count
     }
     
-    init(rows: Int, cols: Int, maskedCells: [Position] = []) {
+    init(rows: Int, cols: Int, maskedCells: [Position] = [], weights: [Position: Int] = [:]) {
         self.rows = rows
         self.cols = cols
         var cells = [[Cell]]()
         for row in 0..<rows {
             var rowCells: [Cell] = []
             for col in 0..<cols {
-                rowCells.append(Cell(position: Position(row, col)))
+                let position = Position(row, col)
+                let weight = weights[position] ?? 1
+                rowCells.append(Cell(position: position, weight: weight))
             }
             cells.append(rowCells)
         }

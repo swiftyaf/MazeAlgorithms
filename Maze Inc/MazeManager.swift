@@ -12,7 +12,7 @@ class MazeManager {
     var maze = Grid(rows: 12, cols: 12)
     let mazeGenerator = MazeGenerator()
     let mazeSolver = MazeSolver()
-    var distances = [Position: Int]()
+    var weights = [Position: Int]()
     var path = [Position(0, 0)]
     var maskedCells: [Position] = []
 
@@ -29,7 +29,7 @@ class MazeManager {
 
         maze = Grid(rows: rows, cols: cols, maskedCells: maskedCells)
         clearMaze()
-        distances = [:]
+        weights = [:]
     }
     
     func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) {
@@ -69,8 +69,8 @@ class MazeManager {
         path = mazeSolver.longestPath(maze: maze)
     }
     
-    func calculateDistances() {
-        distances = mazeSolver.calculateDistances(
+    func calculateWeights() {
+        weights = mazeSolver.calculateWeights(
             maze: maze,
             start: path.first!
         )

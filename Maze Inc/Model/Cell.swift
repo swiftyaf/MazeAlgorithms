@@ -10,10 +10,12 @@ import SwiftUI
 @Observable
 class Cell {
     let position: Position
+    let weight: Int
     var links = [Cell]()
 
-    init(position: Position) {
+    init(position: Position, weight: Int) {
         self.position = position
+        self.weight = weight
     }
     
     func link(to cell: Cell) {

@@ -20,7 +20,7 @@ struct ContentView: View {
             GridView(
                 grid: mazeManager.maze,
                 backgroundColorMode: $backgroundColorMode,
-                distances: $mazeManager.distances,
+                weights: $mazeManager.weights,
                 path: $mazeManager.path
             )
             Spacer()
@@ -98,8 +98,8 @@ struct ContentView: View {
                     }
                     .disabled(!mazeGenerated)
                     Button("Colour it!") {
-                        mazeManager.calculateDistances()
-                        backgroundColorMode = .distance
+                        mazeManager.calculateWeights()
+                        backgroundColorMode = .weight
                     }
                     .disabled(!mazeGenerated)
                     Button("Connections!") {

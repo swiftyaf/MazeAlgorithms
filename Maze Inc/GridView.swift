@@ -10,9 +10,9 @@ import SwiftUI
 struct GridView: View {
     let grid: Grid
     @Binding var backgroundColorMode: BackgroundColorMode
-    @Binding var distances: [Position: Int]
+    @Binding var weights: [Position: Int]
     @Binding var path: [Position]
-
+    
     var body: some View {
         LazyVGrid(
             columns: Array(
@@ -38,7 +38,8 @@ struct GridView: View {
                         CellView(
                             walls: grid.walls(of: cell),
                             cell: cell,
-                            distance: distances[cell.position],
+                            weight: weights[cell.position],
+                            maxWeight: weights.values.max() ?? nil,
                             backgroundColorMode: backgroundColorMode,
                             value: value(at: cell.position)
                         )
@@ -46,7 +47,7 @@ struct GridView: View {
                 } else { // masked cell
                     Color.black
                         .frame(width: 30, height: 30)
-
+                    
                 }
             }
         }
@@ -69,7 +70,7 @@ struct GridView: View {
     GridView(
         grid: Grid(rows: 5, cols: 5),
         backgroundColorMode: .constant(.none),
-        distances: .constant([:]),
+        weights: .constant([:]),
         path: .constant([Position(0, 0), Position(1, 1), Position(2, 2), Position(3, 3), Position(4, 4)])
     )
 }

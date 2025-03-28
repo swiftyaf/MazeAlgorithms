@@ -10,7 +10,8 @@ import SwiftUI
 struct CellView: View {
     let walls: [Direction]
     let cell: Cell
-    let distance: Int?
+    let weight: Int?
+    let maxWeight: Int?
     let backgroundColorMode: BackgroundColorMode
     let value: String
     
@@ -28,11 +29,11 @@ struct CellView: View {
     
     var backgroundView: some View {
         switch backgroundColorMode {
-        case .distance:
-            if let distance {
-                let maxDistance: Double = 30
-                let normalisedDistance = min(Double(distance), maxDistance)
-                let intensity = (maxDistance - normalisedDistance) / maxDistance
+        case .weight:
+            if let weight, let maxWeight {
+                let doubleDistance = Double(weight)
+                let doubleMaxDistance = Double(maxWeight)
+                let intensity = (doubleMaxDistance - doubleDistance) / doubleMaxDistance
                 let dark = 1 * intensity
                 let light = 0.5 + 0.5 * intensity
                 return Color(red: dark, green: light, blue: light)
@@ -40,7 +41,7 @@ struct CellView: View {
                 return Color.clear
             }
         case .connections:
-            return Color(red: 1 - Double(walls.count) * 0.15, green: 0.2, blue: 0.2)
+            return Color(red: 1 - Double(walls.count) * 0.2, green: 0.2, blue: cell.weight > 1 ? 1 : 0.2)
         case .none:
             return Color.clear
         }
@@ -50,8 +51,9 @@ struct CellView: View {
 #Preview {
     CellView(
         walls: [.west, .north],
-        cell: Cell(position: Position(0, 0)),
-        distance: nil,
+        cell: Cell(position: Position(0, 0), weight: 1),
+        weight: nil,
+        maxWeight: nil,
         backgroundColorMode: .none,
         value: " "
     )
@@ -59,7 +61,7 @@ struct CellView: View {
 }
 
 enum BackgroundColorMode {
-    case distance
+    case weight
     case connections
     case none
 }

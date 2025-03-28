@@ -6,40 +6,38 @@
 //
 
 class MazeSolver { // Dijkstra
-    func calculateDistances(maze: Grid, start: Position) -> [Position: Int] {
-        var distances: [Position: Int] = [:]
-        var frontier: [Cell] = []
+    func calculateWeights(maze: Grid, start: Position) -> [Position: Int] {
+        var weights: [Position: Int] = [:]
+        var pending: [Cell] = []
         guard let cell = maze[start] else {
-            return distances
+            return weights
         }
-        frontier = [cell]
-        distances[cell.position] = 0
+        pending = [cell]
+        weights[cell.position] = cell.weight
         
-        while !frontier.isEmpty {
-            var newFrontier: [Cell] = []
-            for cell in frontier {
-                for neighbor in cell.links {
-                    if !distances.keys.contains(neighbor.position) {
-                        let dist = distances[cell.position]! + 1
-                        distances[neighbor.position] = dist
-                        newFrontier.append(neighbor)
-                    }
+        while !pending.isEmpty {
+            pending.sort { weights[$0.position]! < weights[$1.position]! }
+            let currentCell = pending.removeFirst()
+            currentCell.links.forEach { neighbour in
+                let totalWeight = weights[currentCell.position]! + neighbour.weight
+                if weights[neighbour.position] == nil || weights[neighbour.position]! > totalWeight {
+                    weights[neighbour.position] = totalWeight
+                    pending.append(neighbour)
                 }
             }
-            frontier = newFrontier
         }
-        return distances
+        return weights
     }
     
     func solveMaze(_ maze: Grid, start: Position, end: Position) -> [Position] {
-        let distances = calculateDistances(maze: maze, start: start)
+        let weights = calculateWeights(maze: maze, start: start)
         var current = end
         var breadcrumbs = [end]
         while current != start {
             guard let cell = maze[current] else {
                 fatalError()
             }
-            guard let previousCell = cell.links.first(where: { distances[$0.position]! < distances[current]! }) else {
+            guard let previousCell = cell.links.first(where: { weights[$0.position]! < weights[current]! }) else {
                 fatalError()
             }
             breadcrumbs.append(previousCell.position)
@@ -49,10 +47,10 @@ class MazeSolver { // Dijkstra
     }
     
     func longestPath(maze: Grid) -> [Position] {
-        let distances = calculateDistances(maze: maze, start: maze.randomCell().position)
-        let newStart = distances.keys.max(by: { distances[$0]! < distances[$1]! })!
-        let newDistances = calculateDistances(maze: maze, start: newStart)
-        let newFinish = newDistances.keys.max(by: { newDistances[$0]! < newDistances[$1]! })!
+        let weights = calculateWeights(maze: maze, start: maze.randomCell().position)
+        let newStart = weights.keys.max(by: { weights[$0]! < weights[$1]! })!
+        let newWeights = calculateWeights(maze: maze, start: newStart)
+        let newFinish = newWeights.keys.max(by: { newWeights[$0]! < newWeights[$1]! })!
         return solveMaze(maze, start: newStart, end: newFinish)
     }
 }
