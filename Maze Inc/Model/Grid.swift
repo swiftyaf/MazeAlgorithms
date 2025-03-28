@@ -101,4 +101,19 @@ class Grid { // NW = 0,0
     func deadends() -> [Cell] {
         cells.flatMap { $0 }.filter { $0.links.count == 1 }
     }
+    
+    func braid(p: Int = 10) {
+        let deadends = deadends().shuffled()
+        deadends.forEach { deadend in
+            if deadend.links.count == 1 && Int.random(in: 0..<10) < p {
+                let neighbours = neighbours(of: deadend)
+                    .filter { !$0.links.contains(where: { $0 === deadend }) }
+                let bestNeighbours: [Cell]
+                let deadendNeighbours = neighbours.filter { $0.links.count == 1 }
+                bestNeighbours = deadendNeighbours.isEmpty ? neighbours : deadendNeighbours
+                let randomNeighbour = bestNeighbours.randomElement()!
+                link(cell1: deadend, cell2: randomNeighbour)
+            }
+        }
+    }
 }

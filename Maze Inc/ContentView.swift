@@ -81,6 +81,10 @@ struct ContentView: View {
                         generateMazeR()
                         backgroundColorMode = .none
                     }
+                    Button("Braid") {
+                        mazeManager.braid()
+                    }
+                    .disabled(!mazeGenerated)
                 }
                 HStack {
                     Button("Solve") {

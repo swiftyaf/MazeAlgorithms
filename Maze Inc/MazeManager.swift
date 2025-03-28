@@ -76,6 +76,10 @@ class MazeManager {
         )
     }
     
+    func braid() {
+        maze.braid(p: 10)
+    }
+    
     func clearMaze() {
         for row in 0..<maze.rows {
             for col in 0..<maze.cols {
