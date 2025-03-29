@@ -35,11 +35,11 @@ class MazeGenerator {
     }
 }
 
-enum MazeAlgorithm {
-    case binaryTree
-    case sidewinder
-    case aldousBroder
-    case wilson
-    case hunterKiller
-    case recursiveBacktracker
+enum MazeAlgorithm: String, CaseIterable {
+    case binaryTree = "Binary Tree"
+    case sidewinder = "Sidewinder"
+    case aldousBroder = "Aldous-Broder"
+    case wilson = "Wilson"
+    case hunterKiller = "Hunt and Kill"
+    case recursiveBacktracker = "Recursive Backtracker"
 }

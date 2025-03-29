@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var mazeGenerated = false
     @State private var mazeBraided: Bool = false
     @State private var backgroundColorMode: BackgroundColorMode = .none
+    @State var algorithm: MazeAlgorithm = .recursiveBacktracker
 
     var body: some View {
         VStack {
@@ -54,34 +55,25 @@ struct ContentView: View {
             }
             VStack(spacing: 10) {
                 HStack {
-                    Button("Gen (B)") {
-                        generateMaze(algorithm: .binaryTree)
+                    Menu(algorithm.rawValue) {
+                        ForEach(MazeAlgorithm.allCases, id: \.self) { newAlgorithm in
+                            Button(newAlgorithm.rawValue) {
+                                algorithm = newAlgorithm
+                            }
+                            .disabled(maskedCellCount > 0 && (newAlgorithm == .sidewinder || newAlgorithm == .binaryTree))
+                        }
                     }
-                    .disabled(maskedCellCount > 0)
-                    Button("Gen (S)") {
-                        generateMaze(algorithm: .sidewinder)
+                    Button("Generate") {
+                        generateMaze()
                     }
-                    .disabled(maskedCellCount > 0)
-                    Button("Gen (A)") {
-                        generateMaze(algorithm: .aldousBroder)
-                    }
+                }
+                HStack {
                     Button("Braid") {
                         mazeManager.clearPath()
                         mazeManager.braid()
                         mazeBraided = true
                     }
                     .disabled(!mazeGenerated)
-                }
-                HStack {
-                    Button("Gen (W)") {
-                        generateMaze(algorithm: .wilson)
-                    }
-                    Button("Gen (H)") {
-                        generateMaze(algorithm: .hunterKiller)
-                    }
-                    Button("Gen (R)") {
-                        generateMaze(algorithm: .recursiveBacktracker)
-                    }
                     Button("Cull") {
                         mazeManager.clearPath()
                         mazeManager.cull()
@@ -117,10 +109,12 @@ struct ContentView: View {
         .onChange(of: [rowsValue, colsValue, maskedCellCount]) { _ in
             mazeManager.updateGrid(rows: Int(rowsValue), cols: Int(colsValue), maskedCellCount: Int(maskedCellCount))
             mazeGenerated = false
+            algorithm = .recursiveBacktracker
+        }
         }
     }
     
-    func generateMaze(algorithm: MazeAlgorithm) {
+    func generateMaze() {
         mazeManager.generateMaze(rows: Int(rowsValue), cols: Int(colsValue), algorithm: algorithm)
         backgroundColorMode = .none
         mazeGenerated = true
