@@ -67,6 +67,7 @@ class MazeManager {
 
     func longestPath() {
         path = mazeSolver.longestPath(maze: maze)
+        print("longest path length: \(path.count)")
     }
     
     func calculateWeights() {
@@ -92,6 +93,12 @@ class MazeManager {
                     return
                 }
             }
+        }
+    }
+    
+    func clearPath() {
+        if path.count > 2 {
+            path = [path.first!, path.last!]
         }
     }
 }
