@@ -17,7 +17,7 @@ struct GridView: View {
         LazyVGrid(
             columns: Array(
                 repeating: GridItem(
-                    .fixed(30),
+                    .fixed(25),
                     spacing: 0
                 ),
                 count: grid.cols
@@ -45,13 +45,14 @@ struct GridView: View {
                         )
                     }
                 } else { // masked cell
-                    Color.black
-                        .frame(width: 30, height: 30)
+                    Color.clear
+                        .frame(width: 25, height: 25)
                     
                 }
             }
         }
         .padding()
+        .background(Color(.wall))
     }
     
     private func value(at position: Position) -> String {

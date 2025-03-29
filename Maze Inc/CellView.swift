@@ -19,10 +19,10 @@ struct CellView: View {
         HStack {
             Text(value)
         }
-        .frame(width: 30, height: 30)
+        .frame(width: 25, height: 25)
         .background(backgroundView)
         .overlay {
-            CellWalls(walls: walls)
+            CellWalls(walls: walls, margin: 0)
                 .stroke(Color(.wall), lineWidth: 2)
         }
     }
@@ -38,12 +38,12 @@ struct CellView: View {
                 let light = 0.5 + 0.5 * intensity
                 return Color(red: dark, green: light, blue: light)
             } else {
-                return Color.clear
+                return Color(.cellBackground)
             }
         case .connections:
             return Color(red: 1 - Double(walls.count) * 0.2, green: 0.2, blue: 0.2)
         case .none:
-            return Color.clear
+            return Color(.cellBackground)
         }
     }
 }

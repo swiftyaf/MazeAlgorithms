@@ -30,18 +30,18 @@ struct ContentView: View {
                 Text("Rows: \(Int(rowsValue))")
                 HStack {
                     Text("4")
-                    Slider(value: $rowsValue, in: 4...12, step: 1)
+                    Slider(value: $rowsValue, in: 4...22, step: 1)
                         .frame(width: 300)
-                    Text("12")
+                    Text("22")
                 }
             }
             VStack(spacing: 0) {
                 Text("Columns: \(Int(colsValue))")
                 HStack {
                     Text("4")
-                    Slider(value: $colsValue, in: 4...12, step: 1)
+                    Slider(value: $colsValue, in: 4...22, step: 1)
                         .frame(width: 300)
-                    Text("12")
+                    Text("22")
                 }
             }
             VStack(spacing: 0) {
@@ -110,7 +110,6 @@ struct ContentView: View {
             mazeManager.updateGrid(rows: Int(rowsValue), cols: Int(colsValue), maskedCellCount: Int(maskedCellCount))
             mazeGenerated = false
             algorithm = .recursiveBacktracker
-        }
         }
     }
     
