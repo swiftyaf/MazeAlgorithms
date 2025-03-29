@@ -77,7 +77,11 @@ class MazeManager {
     }
     
     func braid() {
-        maze.braid(p: 10)
+        maze.braid(p: 5)
+    }
+    
+    func cull() {
+        maze.cull(ignoring: path)
     }
     
     func clearMaze() {

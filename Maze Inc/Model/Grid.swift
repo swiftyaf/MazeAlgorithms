@@ -10,7 +10,7 @@ import SwiftUI
 @Observable
 class Grid { // NW = 0,0
     private let cells: [[Cell]]
-    private let maskedCells: [Position]
+    private var maskedCells: [Position]
     let cellWeights: [Position: Int]
     let rows: Int
     let cols: Int
@@ -78,6 +78,11 @@ class Grid { // NW = 0,0
         cell2.link(to: cell1)
     }
     
+    func unlink(cell1: Cell, cell2: Cell) {
+        cell1.links.removeAll { $0 === cell2 }
+        cell2.links.removeAll { $0 === cell1 }
+    }
+    
     func wallExists(currentCell: Cell, direction: Direction) -> Bool {
         guard let neighbour = cell(nextTo: currentCell, direction: direction) else {
             return true
@@ -113,12 +118,28 @@ class Grid { // NW = 0,0
             if deadend.links.count == 1 && Int.random(in: 0..<10) < p {
                 let neighbours = neighbours(of: deadend)
                     .filter { !$0.links.contains(where: { $0 === deadend }) }
+                if neighbours.isEmpty { return }
                 let bestNeighbours: [Cell]
                 let deadendNeighbours = neighbours.filter { $0.links.count == 1 }
                 bestNeighbours = deadendNeighbours.isEmpty ? neighbours : deadendNeighbours
                 let randomNeighbour = bestNeighbours.randomElement()!
                 link(cell1: deadend, cell2: randomNeighbour)
             }
+        }
+    }
+    
+    func cull(ignoring: [Position] = []) {
+        let deadends = deadends().filter { !ignoring.contains($0.position) }.shuffled()
+        var culledCellCount = 0
+        deadends.forEach { deadend in
+            deadend.links.forEach { link in
+                unlink(cell1: deadend, cell2: link)
+            }
+            maskedCells.append(deadend.position)
+            culledCellCount += 1
+        }
+        if culledCellCount > 0 {
+            cull(ignoring: ignoring)
         }
     }
 }
