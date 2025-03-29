@@ -23,7 +23,7 @@ struct CellView: View {
         .background(backgroundView)
         .overlay {
             CellWalls(walls: walls)
-                .stroke(Color.black, lineWidth: 2)
+                .stroke(Color(.wall), lineWidth: 2)
         }
     }
     
