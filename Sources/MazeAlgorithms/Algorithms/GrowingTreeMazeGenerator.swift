@@ -6,7 +6,18 @@
 //
 
 class GrowingTreeMazeGenerator: MazeGenerating {
+    var costs: [Position: Int] = [:]
+
     func generateMaze(in grid: Grid) {
+        for row in 0..<grid.rows {
+            for col in 0..<grid.cols {
+                let position = Position(row, col)
+                if let cell = grid[position] {
+                    costs[position] = Int.random(in: 1...100)
+                }
+            }
+        }
+
         let startCell = grid.randomCell()
         var activeCells = [startCell]
         
@@ -26,10 +37,13 @@ class GrowingTreeMazeGenerator: MazeGenerating {
     }
     
     func selectCell(from cells: [Cell]) -> Cell {
-        if Int.random(in: 0..<100) < 50 {
-            cells.randomElement()!
+        let randInt = Int.random(in: 0..<100)
+        if randInt < 33 {
+            return cells.randomElement()!
+        } else if randInt < 66 {
+            return cells.last!
         } else {
-            cells.last!
+            return cells.min { costs[$0.position]! < costs[$1.position]! }!
         }
     }
 }
