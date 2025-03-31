@@ -44,6 +44,9 @@ public class MazeGenerator {
         case .growingTree:
             let mazeGenerator = GrowingTreeMazeGenerator()
             mazeGenerator.generateMaze(in: grid)
+        case .modifiedPrim:
+            let mazeGenerator = ModifiedPrimMazeGenerator()
+            mazeGenerator.generateMaze(in: grid)
         }
         return grid
     }
@@ -58,6 +61,7 @@ public enum MazeAlgorithm: String, CaseIterable {
     case recursiveBacktracker = "Recursive Backtracker"
     case kruskal = "Randomised Kruskal's"
     case simplifiedPrim = "Simplified Prim"
+    case modifiedPrim = "Modified Prim"
     case prim = "Prim"
     case growingTree = "Growing Tree"
 }

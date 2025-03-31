@@ -21,3 +21,9 @@ public class Cell {
         links.append(cell)
     }
 }
+
+extension Cell: Identifiable, Equatable {
+    public static func == (lhs: Cell, rhs: Cell) -> Bool {
+        lhs.position == rhs.position
+    }
+}
