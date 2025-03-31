@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MazeAlgorithms
 
 struct CellView: View {
     let walls: [Direction]

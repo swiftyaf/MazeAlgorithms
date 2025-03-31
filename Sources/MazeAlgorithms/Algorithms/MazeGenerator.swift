@@ -5,8 +5,10 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
-class MazeGenerator {
-    func generateMaze(rows: Int, cols: Int, maskedCells: [Position], algorithm: MazeAlgorithm) -> Grid {
+public class MazeGenerator {
+    public init() {}
+    
+    public func generateMaze(rows: Int, cols: Int, maskedCells: [Position], algorithm: MazeAlgorithm) -> Grid {
         if [.binaryTree, .sidewinder].contains(algorithm) && !maskedCells.isEmpty {
             fatalError()
         }
@@ -35,7 +37,7 @@ class MazeGenerator {
     }
 }
 
-enum MazeAlgorithm: String, CaseIterable {
+public enum MazeAlgorithm: String, CaseIterable {
     case binaryTree = "Binary Tree"
     case sidewinder = "Sidewinder"
     case aldousBroder = "Aldous-Broder"

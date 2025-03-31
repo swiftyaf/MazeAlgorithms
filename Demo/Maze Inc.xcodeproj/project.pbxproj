@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		331B468C2D9B318A0069EF21 /* MazeAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 331B468B2D9B318A0069EF21 /* MazeAlgorithms */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		33EE2D1A2D905F3B00B243E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				331B468C2D9B318A0069EF21 /* MazeAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33514C642D98B84F000C2B98 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		33EE2CFF2D905F3900B243E1 = {
 			isa = PBXGroup;
 			children = (
 				33EE2D0A2D905F3900B243E1 /* Maze Inc */,
 				33EE2D1C2D905F3B00B243E1 /* Maze IncTests */,
 				33EE2D262D905F3B00B243E1 /* Maze IncUITests */,
+				33514C642D98B84F000C2B98 /* Frameworks */,
 				33EE2D092D905F3900B243E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = "Maze Inc";
 			packageProductDependencies = (
+				331B468B2D9B318A0069EF21 /* MazeAlgorithms */,
 			);
 			productName = "Maze Inc";
 			productReference = 33EE2D082D905F3900B243E1 /* Maze Inc.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = 33EE2CFF2D905F3900B243E1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				331B468A2D9B318A0069EF21 /* XCLocalSwiftPackageReference "../../MazeAlgorithms" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 33EE2D092D905F3900B243E1 /* Products */;
 			projectDirPath = "";
@@ -591,6 +608,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		331B468A2D9B318A0069EF21 /* XCLocalSwiftPackageReference "../../MazeAlgorithms" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../MazeAlgorithms;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		331B468B2D9B318A0069EF21 /* MazeAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MazeAlgorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 33EE2D002D905F3900B243E1 /* Project object */;
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MazeAlgorithms
 
 struct ContentView: View {
     @State private var rowsValue: Double = 12.0

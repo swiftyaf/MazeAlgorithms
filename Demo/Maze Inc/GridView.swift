@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import MazeAlgorithms
 
 struct GridView: View {
-    let grid: Grid
+    let grid: MazeAlgorithms.Grid
     @Binding var backgroundColorMode: BackgroundColorMode
     @Binding var weights: [Position: Int]
     @Binding var path: [Position]

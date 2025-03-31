@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import MazeAlgorithms
 
 @Observable
 class MazeManager {
-    var maze = Grid(rows: 12, cols: 12)
+    var maze = MazeAlgorithms.Grid(rows: 12, cols: 12)
     let mazeGenerator = MazeGenerator()
     let mazeSolver = MazeSolver()
     var weights = [Position: Int]()

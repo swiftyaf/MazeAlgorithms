@@ -5,6 +5,8 @@
 //  Created by Dimi Chakarov on 24/03/2025.
 //
 
+import MazeAlgorithms
+
 class MazeSolver { // Dijkstra
     func calculateWeights(maze: Grid, start: Position) -> [Position: Int] {
         var weights: [Position: Int] = [:]

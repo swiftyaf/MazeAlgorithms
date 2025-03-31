@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import MazeAlgorithms
 
 @Observable
-class Cell {
-    let position: Position
-    var links = [Cell]()
+public class Cell {
+    public let position: Position
+    public var links = [Cell]()
 
-    init(position: Position) {
+    public init(position: Position) {
         self.position = position
     }
     

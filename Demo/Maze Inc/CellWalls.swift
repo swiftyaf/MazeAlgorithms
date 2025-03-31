@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MazeAlgorithms
 
 struct CellWalls: Shape {
     let walls: [Direction]

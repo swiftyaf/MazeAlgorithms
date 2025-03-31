@@ -1,2 +1,7 @@
-Maze Inc.xcodeproj/xcuserdata/gimly.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
-Maze Inc.xcodeproj/project.xcworkspace/xcuserdata/gimly.xcuserdatad/Bookmarks
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings

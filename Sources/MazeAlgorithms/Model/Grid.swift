@@ -8,17 +8,17 @@
 import SwiftUI
 
 @Observable
-class Grid { // NW = 0,0
+public class Grid { // NW = 0,0
     private let cells: [[Cell]]
     private var maskedCells: [Position]
-    let cellWeights: [Position: Int]
-    let rows: Int
-    let cols: Int
+    public let cellWeights: [Position: Int]
+    public let rows: Int
+    public let cols: Int
     var totalCells: Int {
         rows * cols - maskedCells.count
     }
     
-    init(rows: Int, cols: Int, maskedCells: [Position] = [], weights: [Position: Int] = [:]) {
+    public init(rows: Int, cols: Int, maskedCells: [Position] = [], weights: [Position: Int] = [:]) {
         var cellWeights: [Position: Int] = [:]
         self.rows = rows
         self.cols = cols
@@ -37,11 +37,11 @@ class Grid { // NW = 0,0
         self.cellWeights = cellWeights
     }
     
-    subscript(position: Position) -> Cell? {
+    public subscript(position: Position) -> Cell? {
         self[position.row, position.col]
     }
     
-    subscript(row: Int, col: Int) -> Cell? {
+    public subscript(row: Int, col: Int) -> Cell? {
         guard row >= 0, row < rows, col >= 0, col < cols else {
             return nil
         }
@@ -51,7 +51,7 @@ class Grid { // NW = 0,0
         return cells[row][col]
     }
     
-    func randomCell() -> Cell {
+    public func randomCell() -> Cell {
         let randomRow = Int.random(in: 0..<rows)
         let randomCol = Int.random(in: 0..<cols)
         return self[randomRow, randomCol] ?? randomCell()
@@ -91,7 +91,7 @@ class Grid { // NW = 0,0
         return !currentCell.links.contains(where: { $0 === neighbour })
     }
     
-    func walls(of cell: Cell) -> [Direction] {
+    public func walls(of cell: Cell) -> [Direction] {
         var directions: [Direction] = []
         if wallExists(currentCell: cell, direction: .north) {
             directions.append(.north)
@@ -108,11 +108,11 @@ class Grid { // NW = 0,0
         return directions
     }
     
-    func deadends() -> [Cell] {
+    public func deadends() -> [Cell] {
         cells.flatMap { $0 }.filter { $0.links.count == 1 }
     }
     
-    func braid(p: Int = 10) {
+    public func braid(p: Int = 10) {
         let deadends = deadends().shuffled()
         deadends.forEach { deadend in
             if deadend.links.count == 1 && Int.random(in: 0..<10) < p {
@@ -128,7 +128,7 @@ class Grid { // NW = 0,0
         }
     }
     
-    func cull(ignoring: [Position] = []) {
+    public func cull(ignoring: [Position] = []) {
         let deadends = deadends().filter { !ignoring.contains($0.position) }.shuffled()
         var culledCellCount = 0
         deadends.forEach { deadend in
