@@ -32,6 +32,9 @@ public class MazeGenerator {
         case .recursiveBacktracker:
             let mazeGenerator = RecursiveBacktrackerMazeGenerator()
             mazeGenerator.generateMaze(in: grid)
+        case .kruskal:
+            let mazeGenerator = KruskalsMazeGenerator()
+            mazeGenerator.generateMaze(in: grid)
         }
         return grid
     }
@@ -44,4 +47,5 @@ public enum MazeAlgorithm: String, CaseIterable {
     case wilson = "Wilson"
     case hunterKiller = "Hunt and Kill"
     case recursiveBacktracker = "Recursive Backtracker"
+    case kruskal = "Randomised Kruskal's"
 }
