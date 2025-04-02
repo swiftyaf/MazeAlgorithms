@@ -8,11 +8,7 @@
 public class MazeGenerator {
     public init() {}
     
-    public func generateMaze(rows: Int, cols: Int, maskedCells: [Position], algorithm: MazeAlgorithm) -> Grid {
-        if [.binaryTree, .sidewinder].contains(algorithm) && !maskedCells.isEmpty {
-            fatalError()
-        }
-        let grid = Grid(rows: rows, cols: cols, maskedCells: maskedCells)
+    public func generateMaze(in grid: Grid, algorithm: MazeAlgorithm) {
         switch algorithm {
         case .binaryTree:
             let mazeGenerator = BinaryTreeMazeGenerator()
@@ -47,7 +43,18 @@ public class MazeGenerator {
         case .modifiedPrim:
             let mazeGenerator = ModifiedPrimMazeGenerator()
             mazeGenerator.generateMaze(in: grid)
+        case .ellers:
+            let mazeGenerator = EllersMazeGenerator()
+            mazeGenerator.generateMaze(in: grid)
         }
+    }
+    
+    public func generateMaze(rows: Int, cols: Int, maskedCells: [Position], algorithm: MazeAlgorithm) -> Grid {
+        if [.binaryTree, .sidewinder].contains(algorithm) && !maskedCells.isEmpty {
+            fatalError()
+        }
+        let grid = Grid(rows: rows, cols: cols, maskedCells: maskedCells)
+        generateMaze(in: grid, algorithm: algorithm)
         return grid
     }
 }
@@ -64,4 +71,5 @@ public enum MazeAlgorithm: String, CaseIterable {
     case modifiedPrim = "Modified Prim"
     case prim = "Prim"
     case growingTree = "Growing Tree"
+    case ellers = "Eller's"
 }
