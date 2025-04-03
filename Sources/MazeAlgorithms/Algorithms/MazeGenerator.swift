@@ -46,6 +46,9 @@ public class MazeGenerator {
         case .ellers:
             let mazeGenerator = EllersMazeGenerator()
             mazeGenerator.generateMaze(in: grid)
+        case .recursiveDivision:
+            let mazeGenerator = RecursiveDivisionMazeGenerator()
+            mazeGenerator.generateMaze(in: grid)
         }
     }
     
@@ -72,4 +75,5 @@ public enum MazeAlgorithm: String, CaseIterable {
     case prim = "Prim"
     case growingTree = "Growing Tree"
     case ellers = "Eller's"
+    case recursiveDivision = "Recursive Division"
 }
