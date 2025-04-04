@@ -20,6 +20,15 @@ public class Cell {
     func link(to cell: Cell) {
         links.append(cell)
     }
+    
+    var passages: [Direction: Bool] {
+        [
+            .east: links.contains(where: { $0.position.col == position.col+1 }),
+            .south: links.contains(where: { $0.position.row == position.row+1 }),
+            .west: links.contains(where: { $0.position.col == position.col-1 }),
+            .north: links.contains(where: { $0.position.row == position.row-1 })
+        ]
+    }
 }
 
 extension Cell: Identifiable, Equatable {
