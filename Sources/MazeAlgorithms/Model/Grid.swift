@@ -108,10 +108,6 @@ public class Grid { // NW = 0,0
         return directions
     }
     
-    public func deadends() -> [Cell] {
-        cells.flatMap { $0 }.filter { $0.links.count == 1 }
-    }
-    
     public func braid(p: Int = 10) {
         let deadends = deadends().shuffled()
         deadends.forEach { deadend in
@@ -141,5 +137,39 @@ public class Grid { // NW = 0,0
         if culledCellCount > 0 {
             cull(ignoring: ignoring)
         }
+    }
+    
+    // MARK: Stats
+        
+    public func deadends() -> [Cell] {
+        cells.flatMap { $0 }.filter { $0.links.count == 1 }
+    }
+    
+    var twistedCells: Int {
+        cells.flatMap { $0 }
+            .filter { $0.links.count == 2 }
+            .filter {
+                ($0.passages[.east]! && $0.passages[.south]!) ||
+                ($0.passages[.south]! && $0.passages[.west]!) ||
+                ($0.passages[.west]! && $0.passages[.north]!) ||
+                ($0.passages[.north]! && $0.passages[.east]!)
+            }
+            .count
+    }
+    
+    var passageCells: Int {
+        cells.flatMap { $0 }
+            .filter { $0.links.count == 2 }
+            .filter {
+                ($0.passages[.east]! && $0.passages[.west]!) ||
+                ($0.passages[.south]! && $0.passages[.north]!)
+            }
+            .count
+    }
+    
+    var intersectionCells: Int {
+        cells.flatMap { $0 }
+            .filter { $0.links.count >= 3 }
+            .count
     }
 }
