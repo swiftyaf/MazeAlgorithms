@@ -145,6 +145,10 @@ public class Grid { // NW = 0,0
         cells.flatMap { $0 }.filter { $0.links.count == 1 }
     }
     
+    var deadendCells: Int {
+        deadends().count
+    }
+    
     var twistedCells: Int {
         cells.flatMap { $0 }
             .filter { $0.links.count == 2 }
@@ -157,7 +161,7 @@ public class Grid { // NW = 0,0
             .count
     }
     
-    var passageCells: Int {
+    var throughCells: Int {
         cells.flatMap { $0 }
             .filter { $0.links.count == 2 }
             .filter {
@@ -167,9 +171,19 @@ public class Grid { // NW = 0,0
             .count
     }
     
+    var passageCells: Int {
+        cells.flatMap { $0 }
+            .filter { $0.links.count == 2 }
+            .count
+    }
+    
     var intersectionCells: Int {
         cells.flatMap { $0 }
             .filter { $0.links.count >= 3 }
             .count
+    }
+    
+    var allCells: [Cell] {
+        cells.flatMap { $0 }
     }
 }
