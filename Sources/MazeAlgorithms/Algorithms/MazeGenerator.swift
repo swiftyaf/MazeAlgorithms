@@ -5,9 +5,14 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
+/// The main interface for the framework. It has two methods to generate a maze - either in a Grid passed to it or based on desired attributes.
 public class MazeGenerator {
     public init() {}
     
+    /// Generates a maze inside the Grid passed as parameter
+    /// - Parameters:
+    ///   - grid: A Grid object where you want the maze to be contained
+    ///   - algorithm: Which algorithms to use for maze generation
     public func generateMaze(in grid: Grid, algorithm: MazeAlgorithm) {
         switch algorithm {
         case .binaryTree:
@@ -52,7 +57,19 @@ public class MazeGenerator {
         }
     }
     
-    public func generateMaze(rows: Int, cols: Int, maskedCells: [Position], algorithm: MazeAlgorithm) -> Grid {
+    /// Creates a grid and then generates a maze into it and returns it
+    /// - Parameters:
+    ///   - rows: The number of rows in the grid containing the maze
+    ///   - cols: The number of columns in the grid containing the maze
+    ///   - maskedCells: An array of cells you want to exclude from the maze
+    ///   - algorithm: Which algorithms to use for maze generation
+    /// - Returns: A Grid object containing the maze
+    public func generateMaze(
+        rows: Int,
+        cols: Int,
+        maskedCells: [Position] = [],
+        algorithm: MazeAlgorithm
+    ) -> Grid {
         if [.binaryTree, .sidewinder].contains(algorithm) && !maskedCells.isEmpty {
             fatalError()
         }
