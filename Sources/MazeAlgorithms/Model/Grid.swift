@@ -79,8 +79,8 @@ public class Grid { // NW = 0,0
     }
     
     func unlink(cell1: Cell, cell2: Cell) {
-        cell1.links.removeAll { $0 === cell2 }
-        cell2.links.removeAll { $0 === cell1 }
+        cell1.links = cell1.links.filter { $0 !== cell2 }
+        cell2.links = cell2.links.filter { $0 !== cell1 }
     }
     
     func wallExists(currentCell: Cell, direction: Direction) -> Bool {

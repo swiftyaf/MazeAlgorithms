@@ -8,16 +8,16 @@
 import SwiftUI
 
 @Observable
-public class Cell {
+public class Cell: Hashable {
     public let position: Position
-    public var links = [Cell]()
+    public var links = Set<Cell>()
 
     public init(position: Position) {
         self.position = position
     }
     
     func link(to cell: Cell) {
-        links.append(cell)
+        links.insert(cell)
     }
     
     var passages: [Direction: Bool] {
@@ -28,10 +28,12 @@ public class Cell {
             .north: links.contains(where: { $0.position.row == position.row-1 })
         ]
     }
-}
-
-extension Cell: Identifiable, Equatable {
+    
     public static func == (lhs: Cell, rhs: Cell) -> Bool {
-        lhs.position == rhs.position
+        ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
     }
 }
