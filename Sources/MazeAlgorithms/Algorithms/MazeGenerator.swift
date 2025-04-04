@@ -79,7 +79,7 @@ public class MazeGenerator {
     }
 }
 
-public enum MazeAlgorithm: String, CaseIterable {
+public enum MazeAlgorithm: String, CaseIterable, Sendable {
     case binaryTree = "Binary Tree"
     case sidewinder = "Sidewinder"
     case aldousBroder = "Aldous-Broder"

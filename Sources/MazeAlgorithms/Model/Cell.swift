@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import MazeAlgorithms
 
 @Observable
 public class Cell {

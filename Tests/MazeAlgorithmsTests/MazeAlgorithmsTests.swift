@@ -1,6 +1,9 @@
 import Testing
 @testable import MazeAlgorithms
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+@Test(arguments: MazeAlgorithm.allCases) func generatedMazeIsTheCorrectSize(algorithm: MazeAlgorithm) {
+    let mazeGenerator = MazeGenerator()
+    let maze = mazeGenerator.generateMaze(rows: 10, cols: 10, algorithm: algorithm)
+    #expect(maze.rows == 10)
+    #expect(maze.cols == 10)
 }

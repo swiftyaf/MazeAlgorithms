@@ -14,7 +14,7 @@ class PrimMazeGenerator: MazeGenerating {
         for row in 0..<grid.rows {
             for col in 0..<grid.cols {
                 let position = Position(row, col)
-                if let cell = grid[position] {
+                if grid[position] != nil {
                     costs[position] = Int.random(in: 1...100)
                 }
             }
