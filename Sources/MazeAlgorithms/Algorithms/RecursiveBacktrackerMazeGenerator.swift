@@ -5,7 +5,7 @@
 //  Created by Dimi Chakarov on 26/03/2025.
 //
 
-class RecursiveBacktrackerMazeGenerator: MazeGenerator {
+class RecursiveBacktrackerMazeGenerator: MazeGenerating {
     func generateMaze(in grid: Grid) {
         var stack = [grid.randomCell()]
         

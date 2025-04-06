@@ -5,7 +5,7 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
-public enum Direction: CaseIterable {
+public enum Direction: CaseIterable, Sendable {
     case north
     case east
     case south
