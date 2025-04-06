@@ -33,9 +33,9 @@ class MazeManager {
         weights = [:]
     }
     
-    func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) {
+    func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) throws {
         clearMaze()
-        maze = mazeGenerator.generateMaze(
+        maze = try mazeGenerator.generateMaze(
             rows: rows,
             cols: cols,
             maskedCells: maskedCells,
