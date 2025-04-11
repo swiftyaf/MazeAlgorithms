@@ -1,7 +1,7 @@
 import MazeAlgorithms
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
     @State private var rowsValue: Double = 12.0
     @State private var colsValue: Double = 12.0
     @State private var maskedCellCount: Double = 0.0
@@ -74,5 +74,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }
