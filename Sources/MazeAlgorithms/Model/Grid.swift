@@ -17,6 +17,9 @@ public class Grid { // NW = 0,0
     var totalCells: Int {
         rows * cols - maskedCells.count
     }
+    var allCells: [Cell] {
+        cells.flatMap { $0 }.filter { !maskedCells.contains($0.position) }
+    }
     
     public init(rows: Int, cols: Int, maskedCells: [Position] = [], weights: [Position: Int] = [:]) {
         var cellWeights: [Position: Int] = [:]
@@ -142,7 +145,7 @@ public class Grid { // NW = 0,0
     // MARK: Stats
         
     public func deadends() -> [Cell] {
-        cells.flatMap { $0 }.filter { $0.links.count == 1 }
+        allCells.filter { $0.links.count == 1 }
     }
     
     var deadendCells: Int {
@@ -150,7 +153,7 @@ public class Grid { // NW = 0,0
     }
     
     var twistedCells: Int {
-        cells.flatMap { $0 }
+        allCells
             .filter { $0.links.count == 2 }
             .filter {
                 ($0.passages[.east]! && $0.passages[.south]!) ||
@@ -162,7 +165,7 @@ public class Grid { // NW = 0,0
     }
     
     var throughCells: Int {
-        cells.flatMap { $0 }
+        allCells
             .filter { $0.links.count == 2 }
             .filter {
                 ($0.passages[.east]! && $0.passages[.west]!) ||
@@ -172,18 +175,14 @@ public class Grid { // NW = 0,0
     }
     
     var passageCells: Int {
-        cells.flatMap { $0 }
+        allCells
             .filter { $0.links.count == 2 }
             .count
     }
     
     var intersectionCells: Int {
-        cells.flatMap { $0 }
+        allCells
             .filter { $0.links.count >= 3 }
             .count
-    }
-    
-    var allCells: [Cell] {
-        cells.flatMap { $0 }
     }
 }
