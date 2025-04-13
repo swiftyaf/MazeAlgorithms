@@ -5,7 +5,7 @@
 //  Created by Dimi Chakarov on 31/03/2025.
 //
 
-class KruskalsMazeGenerator: MazeGenerating {
+public class KruskalsMazeGenerator: MazeGenerating {
     class State {
         var neighbours: [(Position, Position)] = []
         private var setForCell: [Position: Int] = [:]
@@ -56,14 +56,36 @@ class KruskalsMazeGenerator: MazeGenerating {
         }
     }
     
-    func generateMaze(in grid: Grid) {
-        let state = State(grid: grid)
-        var neighbours = state.neighbours.shuffled()
-        while !neighbours.isEmpty {
-            let (p, q) = neighbours.removeLast()
-            if state.canMerge(p, q) {
-                state.merge(p, q)
-            }
+    var grid: Grid
+    var generating = false
+    var neighbours: [(Position, Position)] = []
+    var state: State
+
+    public init(grid: Grid = Grid(rows: 10, cols: 10)) {
+        self.grid = grid
+        state = State(grid: grid)
+    }
+
+    public func generateNextStep() -> Bool {
+        if !generating {
+            generating = true
+            state = State(grid: grid)
+            neighbours = state.neighbours.shuffled()
         }
+        
+        if neighbours.isEmpty {
+            return false
+        }
+        
+        let (p, q) = neighbours.removeLast()
+        if state.canMerge(p, q) {
+            state.merge(p, q)
+        }
+        return true
+    }
+    
+    func generateMaze(in grid: Grid) {
+        self.grid = grid
+        while generateNextStep() {}
     }
 }
