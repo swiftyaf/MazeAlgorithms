@@ -5,18 +5,40 @@
 //  Created by Dimi Chakarov on 25/03/2025.
 //
 
-class AldousBroderMazeGenerator: MazeGenerating {
-    func generateMaze(in grid: Grid) {
-        var unvisited = grid.totalCells - 1
-        var cell = grid.randomCell()
-        
-        while unvisited > 0 {
-            let neighbour = grid.neighbours(of: cell).randomElement()!
-            if neighbour.links.isEmpty {
-                grid.link(cell1: cell, cell2: neighbour)
-                unvisited -= 1
-            }
-            cell = neighbour
+public class AldousBroderMazeGenerator: MazeGenerating {
+    var grid: Grid
+    var generating = false
+    var remainingCells = [Cell]()
+    var unvisited = 0
+    var cell: Cell
+
+    public init(grid: Grid = Grid(rows: 10, cols: 10)) {
+        self.grid = grid
+        cell = grid.randomCell()
+    }
+    
+    public func generateNextStep() -> Bool {
+        if !generating {
+            generating = true
+            cell = grid.randomCell()
+            unvisited = grid.totalCells - 1
         }
+        
+        if unvisited == 0 {
+            return false
+        }
+        
+        let neighbour = grid.neighbours(of: cell).randomElement()!
+        if neighbour.links.isEmpty {
+            grid.link(cell1: cell, cell2: neighbour)
+            unvisited -= 1
+        }
+        cell = neighbour
+        return true
+    }
+        
+    func generateMaze(in grid: Grid) {
+        self.grid = grid
+        while generateNextStep() {}
     }
 }
