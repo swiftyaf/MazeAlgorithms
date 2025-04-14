@@ -10,41 +10,54 @@ import MazeAlgorithms
 
 @Observable
 class MazeManager {
-    var maze = MazeAlgorithms.Grid(rows: 12, cols: 12)
+    var maze: MazeAlgorithms.Grid
     let mazeGenerator = MazeGenerator()
     let mazeSolver = MazeSolver()
     var weights = [Position: Int]()
     var path = [Position(0, 0)]
     var maskedCells: [Position] = []
+    var currentGenerator: MazeGenerating?
+    
+    init() {
+        let maze = MazeAlgorithms.Grid(rows: 12, cols: 12)
+        self.maze = maze
+    }
 
-    func updateGrid(rows: Int, cols: Int, maskedCellCount: Int) {
-        maskedCells = []
-        if maskedCellCount > 0 {
-            let randomIndex = Array(0..<rows*cols)
-            let randomValues = Array(randomIndex.shuffled().prefix(maskedCellCount))
-            for value in randomValues {
-                let position = Position(value / cols, value % cols)
-                maskedCells.append(position)
-            }
-        }
-
-        maze = Grid(rows: rows, cols: cols, maskedCells: maskedCells)
+    func updateGrid(rows: Int, cols: Int) {
+        maze = Grid(rows: rows, cols: cols)
         clearMaze()
         weights = [:]
+        currentGenerator = nil
     }
     
     func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) throws {
-        clearMaze()
         maze = try mazeGenerator.generateMaze(
             rows: rows,
             cols: cols,
-            maskedCells: maskedCells,
             algorithm: algorithm
         )
+        clearMaze()
         let deadends = maze.deadends()
         print("deadends: \(deadends.count)")
         let longestPath = mazeSolver.longestPath(maze: maze)
         print("longest path length: \(longestPath.count)")
+    }
+    
+    func generateMaze(algorithm: MazeAlgorithm) {
+        clearMaze()
+        mazeGenerator.generateMaze(in: maze, algorithm: algorithm)
+        let deadends = maze.deadends()
+        print("deadends: \(deadends.count)")
+        let longestPath = mazeSolver.longestPath(maze: maze)
+        print("longest path length: \(longestPath.count)")
+    }
+    
+    func generateNextStep(algorithm: MazeAlgorithm) -> Bool {
+        if currentGenerator == nil {
+            currentGenerator = algorithm.generator
+            currentGenerator?.setGrid(maze)
+        }
+        return currentGenerator?.generateNextStep() ?? false
     }
     
     func solveMaze() {

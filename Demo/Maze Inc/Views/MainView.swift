@@ -1,10 +1,10 @@
 import MazeAlgorithms
 import SwiftUI
+import Combine
 
 struct MainView: View {
     @State private var rowsValue: Double = 12.0
     @State private var colsValue: Double = 12.0
-    @State private var maskedCellCount: Double = 0.0
     @State private var mazeManager = MazeManager()
     @State private var mazeGenerated = false
     @State private var mazeBraided = false
@@ -12,62 +12,101 @@ struct MainView: View {
     @State private var algorithm: MazeAlgorithm = .recursiveBacktracker
     @State private var showError = false
     @State private var errorMessage = ""
-
+    @State private var showSettings: Bool = false
+    @State private var generatingInProgress = false
+    private let timer = Timer.publish(every: 0.04, on: .main, in: .common).autoconnect()
+    
     var body: some View {
-        VStack {
-            GridView(
-                grid: mazeManager.maze,
-                backgroundColorMode: $backgroundColorMode,
-                weights: $mazeManager.weights,
-                path: $mazeManager.path
-            )
-            Spacer()
-
-            GridControlsView(rows: $rowsValue, cols: $colsValue, maskedCells: $maskedCellCount)
-
-            AlgorithmPickerView(algorithm: $algorithm, maskedCellCount: Int(maskedCellCount)) {
-                do {
-                    try generateMaze()
-                } catch {
-                    errorMessage = error.localizedDescription
-                    showError = true
+        NavigationStack {
+            ZStack {
+                VStack {
+                    GridView(
+                        grid: mazeManager.maze,
+                        backgroundColorMode: $backgroundColorMode,
+                        weights: $mazeManager.weights,
+                        path: $mazeManager.path
+                    )
+                    Spacer()
+                    
+                    GridControlsView(rows: $rowsValue, cols: $colsValue)
+                    
+                    HStack {
+                        Button("Generate") {
+                            do {
+                                try generateMaze()
+                            } catch {
+                                errorMessage = error.localizedDescription
+                                showError = true
+                            }
+                        }
+                        Button("Animate") {
+                            animateGeneration()
+                        }
+                    }
+                    .disabled(generatingInProgress)
+                    
+                    MazeActionsView(
+                        mazeManager: mazeManager,
+                        mazeGenerated: $mazeGenerated,
+                        mazeBraided: $mazeBraided,
+                        backgroundColorMode: $backgroundColorMode
+                    )
+                }
+                .padding()
+                SettingsView(isShowing: $showSettings, selectedAlgorithm: $algorithm)
+            }
+            .alert("Maze Generation Error", isPresented: $showError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
+            }
+            .navigationTitle("MZ")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showSettings.toggle()
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    
                 }
             }
-
-            MazeActionsView(
-                mazeManager: mazeManager,
-                mazeGenerated: $mazeGenerated,
-                mazeBraided: $mazeBraided,
-                backgroundColorMode: $backgroundColorMode
-            )
+            .onChange(of: rowsValue) { resetGrid() }
+            .onChange(of: colsValue) { resetGrid() }
+            .onChange(of: algorithm) { resetGrid() }
+            .onReceive(timer) { _ in
+                if generatingInProgress {
+                    if !mazeManager.generateNextStep(algorithm: algorithm) {
+                        mazeGenerated = true
+                        generatingInProgress = false
+                    }
+                }
+            }
         }
-        .padding()
-        .alert("Maze Generation Error", isPresented: $showError) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text(errorMessage)
-        }
-        .onChange(of: rowsValue) { regenerate() }
-        .onChange(of: colsValue) { regenerate() }
-        .onChange(of: maskedCellCount) { regenerate() }
     }
-
+    
+    private func animateGeneration() {
+        if mazeGenerated {
+            resetGrid()
+        }
+        generatingInProgress = true
+    }
+    
     private func generateMaze() throws {
-        try mazeManager.generateMaze(
-            rows: Int(rowsValue),
-            cols: Int(colsValue),
-            algorithm: algorithm
-        )
+        if mazeGenerated {
+            resetGrid()
+        }
+        mazeManager.generateMaze(algorithm: algorithm)
         backgroundColorMode = .none
         mazeGenerated = true
         mazeBraided = false
     }
-
-    private func regenerate() {
+    
+    private func resetGrid() {
         mazeManager.updateGrid(
             rows: Int(rowsValue),
-            cols: Int(colsValue),
-            maskedCellCount: Int(maskedCellCount)
+            cols: Int(colsValue)
         )
         mazeGenerated = false
     }

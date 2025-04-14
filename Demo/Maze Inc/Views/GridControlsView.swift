@@ -5,13 +5,11 @@ import SwiftUI
 struct GridControlsView: View {
     @Binding var rows: Double
     @Binding var cols: Double
-    @Binding var maskedCells: Double
 
     var body: some View {
         VStack(spacing: 0) {
             valueSlider(title: "Rows", value: $rows, range: 4...22)
             valueSlider(title: "Columns", value: $cols, range: 4...22)
-            valueSlider(title: "Disallowed Cells", value: $maskedCells, range: 0...4)
         }
     }
 
@@ -30,5 +28,5 @@ struct GridControlsView: View {
 }
 
 #Preview {
-    GridControlsView(rows: .constant(10), cols: .constant(10), maskedCells: .constant(0))
+    GridControlsView(rows: .constant(10), cols: .constant(10))
 }
