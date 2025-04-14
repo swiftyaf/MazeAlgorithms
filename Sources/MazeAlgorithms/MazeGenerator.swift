@@ -20,6 +20,10 @@ public class MazeGenerator {
         algorithm.generator.generateMaze(in: grid)
     }
     
+    public func generateNextStep() -> Bool {
+        return false
+    }
+    
     /// Creates a grid and then generates a maze into it and returns it
     ///
     /// - Parameters:
@@ -44,7 +48,11 @@ public class MazeGenerator {
     }
 }
 
-public enum MazeAlgorithm: String, CaseIterable, Sendable {
+public enum MazeAlgorithm: String, CaseIterable, Sendable, Identifiable {
+    public var id: String {
+        self.rawValue
+    }
+    
     case binaryTree = "Binary Tree"
     case sidewinder = "Sidewinder"
     case aldousBroder = "Aldous-Broder"
@@ -59,7 +67,7 @@ public enum MazeAlgorithm: String, CaseIterable, Sendable {
     case ellers = "Eller's"
     case recursiveDivision = "Recursive Division"
 
-    var generator: MazeGenerating {
+    public var generator: MazeGenerating {
         switch self {
         case .binaryTree: BinaryTreeMazeGenerator()
         case .sidewinder: SidewinderMazeGenerator()

@@ -14,6 +14,11 @@ public class HunterKillerMazeGenerator: MazeGenerating {
         self.grid = grid
     }
     
+    public func setGrid(_ grid: Grid) {
+        self.grid = grid
+        generating = false
+    }
+
     public func generateNextStep() -> Bool {
         if !generating {
             generating = true
@@ -21,6 +26,7 @@ public class HunterKillerMazeGenerator: MazeGenerating {
         }
         
         guard let cell = currentCell else {
+            generating = false
             return false
         }
         
@@ -48,7 +54,7 @@ public class HunterKillerMazeGenerator: MazeGenerating {
         return true
     }
     
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
     }

@@ -5,7 +5,9 @@
 //  Created by Dimi Chakarov on 23/03/2025.
 //
 
-protocol MazeGenerating {
+public protocol MazeGenerating {
+    func setGrid(_ grid: Grid)
     func generateMaze(in grid: Grid)
+    func generateNextStep() -> Bool
 }
 

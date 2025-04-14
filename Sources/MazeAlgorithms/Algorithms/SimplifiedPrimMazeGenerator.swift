@@ -14,6 +14,11 @@ public class SimplifiedPrimMazeGenerator: MazeGenerating {
         self.grid = grid
     }
     
+    public func setGrid(_ grid: Grid) {
+        self.grid = grid
+        generating = false
+    }
+
     public func generateNextStep() -> Bool {
         if !generating {
             generating = true
@@ -21,6 +26,7 @@ public class SimplifiedPrimMazeGenerator: MazeGenerating {
         }
         
         guard !activeCells.isEmpty else {
+            generating = false
             return false
         }
         let currentCell = activeCells.randomElement()!
@@ -38,7 +44,7 @@ public class SimplifiedPrimMazeGenerator: MazeGenerating {
         return true
     }
     
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
 

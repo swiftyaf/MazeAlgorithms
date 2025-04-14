@@ -16,6 +16,7 @@ public class RecursiveBacktrackerMazeGenerator: MazeGenerating {
     
     public func setGrid(_ grid: Grid) {
         self.grid = grid
+        generating = false
     }
     
     public func generateNextStep() -> Bool {
@@ -25,6 +26,7 @@ public class RecursiveBacktrackerMazeGenerator: MazeGenerating {
         }
 
         if stack.isEmpty {
+            generating = false
             return false
         }
         
@@ -40,7 +42,7 @@ public class RecursiveBacktrackerMazeGenerator: MazeGenerating {
         return true
     }
     
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
     }

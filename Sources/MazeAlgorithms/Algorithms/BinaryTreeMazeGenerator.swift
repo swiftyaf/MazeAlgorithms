@@ -14,6 +14,11 @@ public class BinaryTreeMazeGenerator: MazeGenerating {
         self.grid = grid
     }
     
+    public func setGrid(_ grid: Grid) {
+        self.grid = grid
+        generating = false
+    }
+
     public func generateNextStep() -> Bool {
         if !generating {
             generating = true
@@ -21,6 +26,7 @@ public class BinaryTreeMazeGenerator: MazeGenerating {
         }
         
         guard !remainingCells.isEmpty else {
+            generating = false
             return false
         }
 
@@ -34,7 +40,7 @@ public class BinaryTreeMazeGenerator: MazeGenerating {
         return true
     }
 
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
     }

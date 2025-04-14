@@ -14,6 +14,11 @@ public class WilsonMazeGenerator: MazeGenerating {
         self.grid = grid
     }
     
+    public func setGrid(_ grid: Grid) {
+        self.grid = grid
+        generating = false
+    }
+
     public func generateNextStep() -> Bool {
         if !generating {
             generating = true
@@ -23,6 +28,7 @@ public class WilsonMazeGenerator: MazeGenerating {
         }
         
         guard !unvisitedCells.isEmpty else {
+            generating = false
             return false
         }
         
@@ -48,7 +54,7 @@ public class WilsonMazeGenerator: MazeGenerating {
         return true
     }
 
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
     }

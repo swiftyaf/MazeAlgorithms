@@ -65,6 +65,11 @@ public class KruskalsMazeGenerator: MazeGenerating {
         self.grid = grid
         state = State(grid: grid)
     }
+    
+    public func setGrid(_ grid: Grid) {
+        self.grid = grid
+        generating = false
+    }
 
     public func generateNextStep() -> Bool {
         if !generating {
@@ -74,6 +79,7 @@ public class KruskalsMazeGenerator: MazeGenerating {
         }
         
         if neighbours.isEmpty {
+            generating = false
             return false
         }
         
@@ -84,7 +90,7 @@ public class KruskalsMazeGenerator: MazeGenerating {
         return true
     }
     
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
     }

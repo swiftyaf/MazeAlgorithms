@@ -16,6 +16,11 @@ public class SidewinderMazeGenerator: MazeGenerating {
         self.grid = grid
     }
     
+    public func setGrid(_ grid: Grid) {
+        self.grid = grid
+        generating = false
+    }
+
     public func generateNextStep() -> Bool {
         if !generating {
             generating = true
@@ -50,13 +55,14 @@ public class SidewinderMazeGenerator: MazeGenerating {
             currentRow += 1
             currentCol = 0
             if currentRow == grid.rows {
+                generating = false
                 return false
             }
         }
         return true
     }
     
-    func generateMaze(in grid: Grid) {
+    public func generateMaze(in grid: Grid) {
         self.grid = grid
         while generateNextStep() {}
     }
