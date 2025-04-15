@@ -6,9 +6,18 @@
 //
 
 public class RecursiveDivisionMazeGenerator: MazeGenerating {
+    struct State {
+        let row: Int
+        let col: Int
+        let height: Int
+        let width: Int
+    }
+    
     var grid: Grid
     var generating = false
 
+    var stack: [State] = []
+    
     public init(grid: Grid = Grid(rows: 10, cols: 10)) {
         self.grid = grid
     }
@@ -22,19 +31,83 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
         if !generating {
             generating = true
             linkAllCells()
+            stack.append(State(row: 0, col: 0, height: grid.rows, width: grid.cols))
         }
         
-        divide(row: 0, col: 0, height: grid.rows, width: grid.cols)
+        guard !stack.isEmpty else {
+            return false
+        }
+        
+        let state = stack.removeLast()
+        guard state.height > 1 && state.width > 1 else { return true }
+        
+        if state.height > state.width {
+            let divideSouthOfRow = Int.random(in: 0..<state.height-1)
+            let passageAt = Int.random(in: 0..<state.width)
+            
+            for i in 0..<state.width {
+                if i == passageAt { continue }
+                
+                let position1 = Position(state.row+divideSouthOfRow, state.col+i)
+                let position2 = Position(state.row+divideSouthOfRow+1, state.col+i)
+                let cell = grid[position1]!
+                let cell2 = grid[position2]!
+                grid.unlink(cell1: cell, cell2: cell2)
+            }
+            
+            stack.append(
+                State(
+                    row: state.row,
+                    col: state.col,
+                    height: divideSouthOfRow+1,
+                    width: state.width
+                )
+            )
+            stack.append(
+                State(
+                    row: state.row+divideSouthOfRow+1,
+                    col: state.col,
+                    height: state.height-divideSouthOfRow-1,
+                    width: state.width
+                )
+            )
+        } else {
+            let divideEastOfCol = Int.random(in: 0..<state.width-1)
+            let passageAt = Int.random(in: 0..<state.height)
+            
+            for i in 0..<state.height {
+                if i == passageAt { continue }
+                
+                let position1 = Position(state.row+i, state.col+divideEastOfCol)
+                let position2 = Position(state.row+i, state.col+divideEastOfCol+1)
+                let cell = grid[position1]!
+                let cell2 = grid[position2]!
+                grid.unlink(cell1: cell, cell2: cell2)
+            }
+            
+            stack.append(
+                State(
+                    row: state.row,
+                    col: state.col,
+                    height: state.height,
+                    width: divideEastOfCol+1
+                )
+            )
+            stack.append(
+                State(
+                    row: state.row,
+                    col: state.col+divideEastOfCol+1,
+                    height: state.height,
+                    width: state.width-divideEastOfCol-1
+                )
+            )
+        }
         return true
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-//        while generateNextStep() {}
-
-        linkAllCells()
-        
-        divide(row: 0, col: 0, height: grid.rows, width: grid.cols)
+        while generateNextStep() {}
     }
     
     private func linkAllCells() {
@@ -44,50 +117,73 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
             }
         }
     }
-    
-    private func divide(row: Int, col: Int, height: Int, width: Int) {
-        guard height > 1 && width > 1 else { return }
         
-        if height > width {
-            divideHorizontally(row: row, col: col, height: height, width: width)
-        } else {
-            divideVertically(row: row, col: col, height: height, width: width)
-        }
-    }
-    
-    private func divideHorizontally(row: Int, col: Int, height: Int, width: Int) {
-        let divideSouthOfRow = Int.random(in: 0..<height-1)
-        let passageAt = Int.random(in: 0..<width)
-        
-        for i in 0..<width {
-            if i == passageAt { continue }
+    private func divide() {
+        while !stack.isEmpty {
+            let state = stack.removeLast()
+            guard state.height > 1 && state.width > 1 else { continue }
             
-            let position1 = Position(row+divideSouthOfRow, col+i)
-            let position2 = Position(row+divideSouthOfRow+1, col+i)
-            let cell = grid[position1]!
-            let cell2 = grid[position2]!
-            grid.unlink(cell1: cell, cell2: cell2)
+            if state.height > state.width {
+                let divideSouthOfRow = Int.random(in: 0..<state.height-1)
+                let passageAt = Int.random(in: 0..<state.width)
+                
+                for i in 0..<state.width {
+                    if i == passageAt { continue }
+                    
+                    let position1 = Position(state.row+divideSouthOfRow, state.col+i)
+                    let position2 = Position(state.row+divideSouthOfRow+1, state.col+i)
+                    let cell = grid[position1]!
+                    let cell2 = grid[position2]!
+                    grid.unlink(cell1: cell, cell2: cell2)
+                }
+                
+                stack.append(
+                    State(
+                        row: state.row,
+                        col: state.col,
+                        height: divideSouthOfRow+1,
+                        width: state.width
+                    )
+                )
+                stack.append(
+                    State(
+                        row: state.row+divideSouthOfRow+1,
+                        col: state.col,
+                        height: state.height-divideSouthOfRow-1,
+                        width: state.width
+                    )
+                )
+            } else {
+                let divideEastOfCol = Int.random(in: 0..<state.width-1)
+                let passageAt = Int.random(in: 0..<state.height)
+                
+                for i in 0..<state.height {
+                    if i == passageAt { continue }
+                    
+                    let position1 = Position(state.row+i, state.col+divideEastOfCol)
+                    let position2 = Position(state.row+i, state.col+divideEastOfCol+1)
+                    let cell = grid[position1]!
+                    let cell2 = grid[position2]!
+                    grid.unlink(cell1: cell, cell2: cell2)
+                }
+                
+                stack.append(
+                    State(
+                        row: state.row,
+                        col: state.col,
+                        height: state.height,
+                        width: divideEastOfCol+1
+                    )
+                )
+                stack.append(
+                    State(
+                        row: state.row,
+                        col: state.col+divideEastOfCol+1,
+                        height: state.height,
+                        width: state.width-divideEastOfCol-1
+                    )
+                )
+            }
         }
-        
-        divide(row: row, col: col, height: divideSouthOfRow+1, width: width)
-        divide(row: row+divideSouthOfRow+1, col: col, height: height-divideSouthOfRow-1, width: width)
-    }
-    
-    private func divideVertically(row: Int, col: Int, height: Int, width: Int) {
-        let divideEastOfCol = Int.random(in: 0..<width-1)
-        let passageAt = Int.random(in: 0..<height)
-        
-        for i in 0..<height {
-            if i == passageAt { continue }
-            
-            let position1 = Position(row+i, col+divideEastOfCol)
-            let position2 = Position(row+i, col+divideEastOfCol+1)
-            let cell = grid[position1]!
-            let cell2 = grid[position2]!
-            grid.unlink(cell1: cell, cell2: cell2)
-        }
-        
-        divide(row: row, col: col, height: height, width: divideEastOfCol+1)
-        divide(row: row, col: col+divideEastOfCol+1, height: height, width: width-divideEastOfCol-1)
     }
 }
