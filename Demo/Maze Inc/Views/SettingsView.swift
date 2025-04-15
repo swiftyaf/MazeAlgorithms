@@ -24,7 +24,7 @@ struct SettingsView: View {
                 
                 HStack {
                     Spacer()
-                    VStack(alignment: .leading, spacing: 6) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text("Algorithm")
                         
                         ForEach(MazeAlgorithm.allCases) { algorithm in

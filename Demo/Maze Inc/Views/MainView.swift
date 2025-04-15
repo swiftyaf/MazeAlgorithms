@@ -17,70 +17,64 @@ struct MainView: View {
     private let timer = Timer.publish(every: 0.04, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack {
-                    GridView(
-                        grid: mazeManager.maze,
-                        backgroundColorMode: $backgroundColorMode,
-                        weights: $mazeManager.weights,
-                        path: $mazeManager.path
-                    )
+        ZStack {
+            VStack {
+                HStack {
                     Spacer()
-                    
-                    GridControlsView(rows: $rowsValue, cols: $colsValue)
-                    
-                    HStack {
-                        Button("Generate") {
-                            do {
-                                try generateMaze()
-                            } catch {
-                                errorMessage = error.localizedDescription
-                                showError = true
-                            }
-                        }
-                        Button("Animate") {
-                            animateGeneration()
-                        }
-                    }
-                    .disabled(generatingInProgress)
-                    
-                    MazeActionsView(
-                        mazeManager: mazeManager,
-                        mazeGenerated: $mazeGenerated,
-                        mazeBraided: $mazeBraided,
-                        backgroundColorMode: $backgroundColorMode
-                    )
-                }
-                .padding()
-                SettingsView(isShowing: $showSettings, selectedAlgorithm: $algorithm)
-            }
-            .alert("Maze Generation Error", isPresented: $showError) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text(errorMessage)
-            }
-            .navigationTitle("MZ")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showSettings.toggle()
                     } label: {
                         Image(systemName: "gearshape")
                     }
-                    
                 }
-            }
-            .onChange(of: rowsValue) { resetGrid() }
-            .onChange(of: colsValue) { resetGrid() }
-            .onChange(of: algorithm) { resetGrid() }
-            .onReceive(timer) { _ in
-                if generatingInProgress {
-                    if !mazeManager.generateNextStep(algorithm: algorithm) {
-                        mazeGenerated = true
-                        generatingInProgress = false
+                GridView(
+                    grid: mazeManager.maze,
+                    backgroundColorMode: $backgroundColorMode,
+                    weights: $mazeManager.weights,
+                    path: $mazeManager.path
+                )
+                Spacer()
+                
+                GridControlsView(rows: $rowsValue, cols: $colsValue)
+                
+                HStack {
+                    Button("Generate") {
+                        do {
+                            try generateMaze()
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showError = true
+                        }
                     }
+                    Button("Animate") {
+                        animateGeneration()
+                    }
+                }
+                .disabled(generatingInProgress)
+                
+                MazeActionsView(
+                    mazeManager: mazeManager,
+                    mazeGenerated: $mazeGenerated,
+                    mazeBraided: $mazeBraided,
+                    backgroundColorMode: $backgroundColorMode
+                )
+            }
+            .padding()
+            SettingsView(isShowing: $showSettings, selectedAlgorithm: $algorithm)
+        }
+        .alert("Maze Generation Error", isPresented: $showError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
+        .onChange(of: rowsValue) { resetGrid() }
+        .onChange(of: colsValue) { resetGrid() }
+        .onChange(of: algorithm) { resetGrid() }
+        .onReceive(timer) { _ in
+            if generatingInProgress {
+                if !mazeManager.generateNextStep(algorithm: algorithm) {
+                    mazeGenerated = true
+                    generatingInProgress = false
                 }
             }
         }
