@@ -8,9 +8,10 @@
 import SwiftUI
 
 @Observable
-public class Cell: Hashable {
+public class Cell: Hashable, CustomStringConvertible {
     public let position: Position
     public var links = Set<Cell>()
+    public var description: String { "\(position)" }
 
     public init(position: Position) {
         self.position = position
