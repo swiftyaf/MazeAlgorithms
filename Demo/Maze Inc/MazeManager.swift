@@ -17,6 +17,7 @@ class MazeManager {
     var path = [Position(0, 0)]
     var maskedCells: [Position] = []
     var currentGenerator: MazeGenerating?
+    var nextStep: (generated: [Cell], evaluating: [Cell])?
     
     init() {
         let maze = MazeAlgorithms.Grid(rows: 12, cols: 12)
@@ -52,11 +53,13 @@ class MazeManager {
         print("longest path length: \(longestPath.count)")
     }
     
-    func generateNextStep(algorithm: MazeAlgorithm) -> Bool {
+    func generateStep(algorithm: MazeAlgorithm) -> Bool {
         if currentGenerator == nil {
             currentGenerator = algorithm.generator
             currentGenerator?.setGrid(maze)
         }
+        
+        nextStep = currentGenerator?.generateStep()
         return nextStep != nil
     }
     

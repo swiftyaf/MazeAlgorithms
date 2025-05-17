@@ -31,7 +31,8 @@ struct MainView: View {
                     grid: mazeManager.maze,
                     backgroundColorMode: $backgroundColorMode,
                     weights: $mazeManager.weights,
-                    path: $mazeManager.path
+                    path: $mazeManager.path,
+                    cellActivity: $mazeManager.nextStep
                 )
                 Spacer()
                 
@@ -72,7 +73,7 @@ struct MainView: View {
         .onChange(of: algorithm) { resetGrid() }
         .onReceive(timer) { _ in
             if generatingInProgress {
-                if !mazeManager.generateNextStep(algorithm: algorithm) {
+                if !mazeManager.generateStep(algorithm: algorithm) {
                     mazeGenerated = true
                     generatingInProgress = false
                 }

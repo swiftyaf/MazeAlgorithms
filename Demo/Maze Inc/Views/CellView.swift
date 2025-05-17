@@ -8,6 +8,12 @@
 import SwiftUI
 import MazeAlgorithms
 
+enum CellActiveMode {
+    case none
+    case active
+    case preparing
+}
+
 struct CellView: View {
     let walls: [Direction]
     let cell: Cell
@@ -15,6 +21,7 @@ struct CellView: View {
     let maxWeight: Int?
     let backgroundColorMode: BackgroundColorMode
     let value: String
+    let activeMode: CellActiveMode
     
     var body: some View {
         HStack {
@@ -44,7 +51,14 @@ struct CellView: View {
         case .connections:
             return Color(red: 1 - Double(walls.count) * 0.2, green: 0.2, blue: 0.2)
         case .none:
-            return Color(.cellBackground)
+            switch activeMode {
+            case .active:
+                return Color.red
+            case .preparing:
+                return Color.orange
+            case .none:
+                return Color(.cellBackground)
+            }
         }
     }
 }
@@ -56,7 +70,8 @@ struct CellView: View {
         weight: nil,
         maxWeight: nil,
         backgroundColorMode: .none,
-        value: " "
+        value: " ",
+        activeMode: .none
     )
     .padding()
 }
