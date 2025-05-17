@@ -19,7 +19,7 @@ public class HunterKillerMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             currentCell = grid.randomCell()
@@ -27,7 +27,7 @@ public class HunterKillerMazeGenerator: MazeGenerating {
         
         guard let cell = currentCell else {
             generating = false
-            return false
+            return nil
         }
         
         let unvisitedNeighbours = grid.neighbours(of: cell).filter { $0.links.isEmpty }
@@ -51,11 +51,11 @@ public class HunterKillerMazeGenerator: MazeGenerating {
                 }
             }
         }
-        return true
+        return (generated: [currentCell].compactMap { $0 }, evaluating: unvisitedNeighbours)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

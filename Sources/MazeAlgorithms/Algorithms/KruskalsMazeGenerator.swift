@@ -71,7 +71,7 @@ public class KruskalsMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             state = State(grid: grid)
@@ -80,18 +80,21 @@ public class KruskalsMazeGenerator: MazeGenerating {
         
         if neighbours.isEmpty {
             generating = false
-            return false
+            return nil
         }
         
         let (p, q) = neighbours.removeLast()
         if state.canMerge(p, q) {
             state.merge(p, q)
         }
-        return true
+        
+        let next = neighbours.map { [$0, $1] }.flatMap { $0 }.compactMap { grid[$0] }
+        
+        return (generated: [grid[p], grid[q]].compactMap { $0 }, evaluating: next)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

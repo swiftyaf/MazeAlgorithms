@@ -19,7 +19,7 @@ public class WilsonMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             unvisitedCells = grid.allCells.map { $0.position }
@@ -29,7 +29,7 @@ public class WilsonMazeGenerator: MazeGenerating {
         
         guard !unvisitedCells.isEmpty else {
             generating = false
-            return false
+            return nil
         }
         
         var cellPosition = unvisitedCells.randomElement()!
@@ -44,18 +44,18 @@ public class WilsonMazeGenerator: MazeGenerating {
             }
         }
         
-        for i in 0..<(path.count-1) {
+        for i in 0..<(path.count-1) { // TODO: step-ify this
             let cell1 = grid[path[i]]!
             let cell2 = grid[path[i+1]]!
             grid.link(cell1: cell1, cell2: cell2)
             unvisitedCells.remove(at: unvisitedCells.firstIndex(of: path[i])!)
         }
         
-        return true
+        return (generated: [], evaluating: [])
     }
 
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

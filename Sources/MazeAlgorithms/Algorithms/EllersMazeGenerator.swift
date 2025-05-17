@@ -61,7 +61,7 @@ public class EllersMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             currentRow = 0
@@ -107,14 +107,14 @@ public class EllersMazeGenerator: MazeGenerating {
             currentCol = 0
             if currentRow == grid.rows {
                 generating = false
-                return false
+                return nil
             }
         }
-        return true
+        return (generated: [], evaluating: [])
     }
             
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

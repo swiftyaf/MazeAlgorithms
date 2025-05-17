@@ -57,7 +57,7 @@ class MazeManager {
             currentGenerator = algorithm.generator
             currentGenerator?.setGrid(maze)
         }
-        return currentGenerator?.generateNextStep() ?? false
+        return nextStep != nil
     }
     
     func solveMaze() {

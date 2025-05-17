@@ -27,7 +27,10 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
+        var current: [Cell] = []
+        var next: [Cell] = []
+        
         if !generating {
             generating = true
             linkAllCells()
@@ -35,11 +38,15 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
         }
         
         guard !stack.isEmpty else {
-            return false
+            return nil
         }
         
         let state = stack.removeLast()
-        guard state.height > 1 && state.width > 1 else { return true }
+        guard state.height > 1 && state.width > 1 else {
+            return (generated: [], evaluating: [])
+        }
+        
+        
         
         if state.height > state.width {
             let divideSouthOfRow = Int.random(in: 0..<state.height-1)
@@ -53,6 +60,8 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
                 let cell = grid[position1]!
                 let cell2 = grid[position2]!
                 grid.unlink(cell1: cell, cell2: cell2)
+                next.append(cell)
+                next.append(cell2)
             }
             
             stack.append(
@@ -83,6 +92,8 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
                 let cell = grid[position1]!
                 let cell2 = grid[position2]!
                 grid.unlink(cell1: cell, cell2: cell2)
+                next.append(cell)
+                next.append(cell2)
             }
             
             stack.append(
@@ -102,12 +113,12 @@ public class RecursiveDivisionMazeGenerator: MazeGenerating {
                 )
             )
         }
-        return true
+        return (generated: current, evaluating: next)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
     
     private func linkAllCells() {

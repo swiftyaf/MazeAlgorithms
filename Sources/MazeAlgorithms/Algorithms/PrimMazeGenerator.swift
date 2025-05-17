@@ -20,7 +20,7 @@ public class PrimMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             randomizeCosts()
@@ -29,7 +29,7 @@ public class PrimMazeGenerator: MazeGenerating {
         
         guard !activeCells.isEmpty else {
             generating = false
-            return false
+            return nil
         }
         
         let currentCell = activeCells.min { costs[$0.position]! < costs[$1.position]! }!
@@ -44,12 +44,12 @@ public class PrimMazeGenerator: MazeGenerating {
             activeCells.removeAll { $0.position == currentCell.position }
         }
         
-        return true
+        return (generated: [currentCell], evaluating: activeCells)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
     
     private func randomizeCosts() {

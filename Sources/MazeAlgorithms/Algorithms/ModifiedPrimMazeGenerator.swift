@@ -21,7 +21,7 @@ public class ModifiedPrimMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             inCells = [grid.randomCell()]
@@ -33,7 +33,7 @@ public class ModifiedPrimMazeGenerator: MazeGenerating {
         
         if frontierCells.isEmpty {
             generating = false
-            return false
+            return nil
         }
         
         let cell = frontierCells.randomElement()!
@@ -50,11 +50,11 @@ public class ModifiedPrimMazeGenerator: MazeGenerating {
                 outCells.removeAll { $0 == outNeighbour }
             }
         }
-        return true
+        return (generated: [cell], evaluating: frontierCells)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

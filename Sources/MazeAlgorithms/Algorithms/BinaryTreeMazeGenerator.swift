@@ -19,7 +19,7 @@ public class BinaryTreeMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             remainingCells = grid.allCells
@@ -27,7 +27,7 @@ public class BinaryTreeMazeGenerator: MazeGenerating {
         
         guard !remainingCells.isEmpty else {
             generating = false
-            return false
+            return nil
         }
 
         let cell = remainingCells.removeFirst()
@@ -37,11 +37,11 @@ public class BinaryTreeMazeGenerator: MazeGenerating {
         if let nextCell {
             grid.link(cell1: cell, cell2: nextCell)
         }
-        return true
+        return (generated: [cell], evaluating: [northCell, eastCell].compactMap { $0 })
     }
 
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

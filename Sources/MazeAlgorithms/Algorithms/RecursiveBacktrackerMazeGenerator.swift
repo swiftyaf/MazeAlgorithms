@@ -19,7 +19,7 @@ public class RecursiveBacktrackerMazeGenerator: MazeGenerating {
         generating = false
     }
     
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             stack = [grid.randomCell()]
@@ -27,7 +27,7 @@ public class RecursiveBacktrackerMazeGenerator: MazeGenerating {
 
         if stack.isEmpty {
             generating = false
-            return false
+            return nil
         }
         
         let current = stack.last!
@@ -39,11 +39,11 @@ public class RecursiveBacktrackerMazeGenerator: MazeGenerating {
             grid.link(cell1: current, cell2: neighbour)
             stack.append(neighbour)
         }
-        return true
+        return (generated: [current], evaluating: stack)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

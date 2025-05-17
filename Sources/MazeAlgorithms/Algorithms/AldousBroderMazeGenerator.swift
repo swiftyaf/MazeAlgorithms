@@ -22,7 +22,7 @@ public class AldousBroderMazeGenerator: MazeGenerating {
         generating = false
     }
     
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
         if !generating {
             generating = true
             cell = grid.randomCell()
@@ -31,7 +31,7 @@ public class AldousBroderMazeGenerator: MazeGenerating {
         
         if unvisited == 0 {
             generating = false
-            return false
+            return nil
         }
         
         let neighbour = grid.neighbours(of: cell).randomElement()!
@@ -40,11 +40,11 @@ public class AldousBroderMazeGenerator: MazeGenerating {
             unvisited -= 1
         }
         cell = neighbour
-        return true
+        return (generated: [cell], evaluating: grid.neighbours(of: cell))
     }
-        
+    
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }

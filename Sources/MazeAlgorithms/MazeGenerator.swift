@@ -20,7 +20,7 @@ public class MazeGenerator {
         algorithm.generator.generateMaze(in: grid)
     }
     
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> Bool {
         return false
     }
     

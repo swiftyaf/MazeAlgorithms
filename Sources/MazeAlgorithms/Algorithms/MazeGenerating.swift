@@ -8,6 +8,6 @@
 public protocol MazeGenerating {
     func setGrid(_ grid: Grid)
     func generateMaze(in grid: Grid)
-    func generateNextStep() -> Bool
+    func generateStep() -> (generated: [Cell], evaluating: [Cell])?
 }
 

@@ -21,7 +21,10 @@ public class SidewinderMazeGenerator: MazeGenerating {
         generating = false
     }
 
-    public func generateNextStep() -> Bool {
+    public func generateStep() -> (generated: [Cell], evaluating: [Cell])? {
+        var current: [Cell] = []
+        var next: [Cell] = []
+        
         if !generating {
             generating = true
             currentRow = 0
@@ -32,6 +35,7 @@ public class SidewinderMazeGenerator: MazeGenerating {
             run = []
         }
         if let cell = grid[currentRow, currentCol] {
+            current = [cell]
             run.append(cell)
             let atEastEdgeOfGrid = currentCol == grid.cols - 1
             let atNorthEdgeOfGrid = currentRow == 0
@@ -42,11 +46,14 @@ public class SidewinderMazeGenerator: MazeGenerating {
                 let randomCell = run.randomElement()!
                 if let northCell = grid.cell(nextTo: randomCell, direction: .north) {
                     grid.link(cell1: randomCell, cell2: northCell)
+                    next.append(northCell)
+                    next.append(contentsOf: run)
                 }
                 run = []
             } else {
                 if let eastCell = grid.cell(nextTo: cell, direction: .east) {
                     grid.link(cell1: cell, cell2: eastCell)
+                    next.append(eastCell)
                 }
             }
         }
@@ -56,14 +63,15 @@ public class SidewinderMazeGenerator: MazeGenerating {
             currentCol = 0
             if currentRow == grid.rows {
                 generating = false
-                return false
+                return nil
             }
         }
-        return true
+        next.append(contentsOf: run)
+        return (generated: current, evaluating: next)
     }
     
     public func generateMaze(in grid: Grid) {
         self.grid = grid
-        while generateNextStep() {}
+        while generateStep() != nil {}
     }
 }
