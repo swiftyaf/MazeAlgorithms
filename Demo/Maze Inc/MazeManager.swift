@@ -11,8 +11,7 @@ import MazeAlgorithms
 @Observable
 class MazeManager {
     var maze: MazeAlgorithms.Grid
-    let mazeFacade = MazeAlgorithmsFacade() // Renamed and using the facade
-    // let mazeSolver = MazeSolver() // No longer needed
+    let mazeFacade = MazeAlgorithmsFacade()
     var weights = [Position: Int]()
     var path = [Position(0, 0)]
     var maskedCells: [Position] = []
@@ -32,7 +31,7 @@ class MazeManager {
     }
     
     func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) throws {
-        maze = try mazeFacade.generateMaze( // Use facade
+        maze = try mazeFacade.generateMaze(
             rows: rows,
             cols: cols,
             algorithm: algorithm
@@ -40,17 +39,15 @@ class MazeManager {
         clearMaze()
         let deadends = maze.deadends()
         print("deadends: \(deadends.count)")
-        // Use facade for longestPath
         let longestPathResult = mazeFacade.longestPath(maze: maze)
         print("longest path length: \(longestPathResult.count)")
     }
     
     func generateMaze(algorithm: MazeAlgorithm) {
         clearMaze()
-        mazeFacade.generateMaze(in: maze, algorithm: algorithm) // Use facade
+        mazeFacade.generateMaze(in: maze, algorithm: algorithm)
         let deadends = maze.deadends()
         print("deadends: \(deadends.count)")
-        // Use facade for longestPath
         let longestPathResult = mazeFacade.longestPath(maze: maze)
         print("longest path length: \(longestPathResult.count)")
     }
@@ -77,24 +74,21 @@ class MazeManager {
                 }
                 return randomCell.position
             }}()
-        // Use facade for solveMaze
+
         path = mazeFacade.solveMaze(
-            maze: maze, // Added labels for clarity as per facade's method signature
+            maze: maze,
             start: start,
             end: end
         ).reversed()
     }
 
     func longestPath() {
-        // Use facade for longestPath
         path = mazeFacade.longestPath(maze: maze)
         print("longest path length: \(path.count)")
     }
     
     func calculateWeights() {
-        // Use facade for calculateWeights
         guard let startPosition = path.first else {
-            // Or handle error appropriately, e.g. set weights to empty or log
             weights = [:]
             return
         }
