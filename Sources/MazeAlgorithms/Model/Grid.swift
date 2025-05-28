@@ -60,7 +60,7 @@ public class Grid { // NW = 0,0
         return self[randomRow, randomCol] ?? randomCell()
     }
     
-    func cell(nextTo cell: Cell, direction: Direction) -> Cell? {
+    public func cell(nextTo cell: Cell, direction: Direction) -> Cell? {
         let nextCellPosition = Position(cell.position.row + direction.offset.vertical,
                                         cell.position.col + direction.offset.horizontal)
         return self[nextCellPosition]
