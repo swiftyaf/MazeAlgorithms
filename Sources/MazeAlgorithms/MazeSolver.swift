@@ -1,14 +1,14 @@
 //
 //  MazeSolver.swift
-//  Maze Inc
+//  MazeAlgorithms
 //
 //  Created by Dimi Chakarov on 24/03/2025.
 //
 
-import MazeAlgorithms
+import Foundation
 
-class MazeSolver { // Dijkstra
-    func calculateWeights(maze: Grid, start: Position) -> [Position: Int] {
+public class MazeSolver { // Dijkstra
+    public func calculateWeights(maze: Grid, start: Position) -> [Position: Int] {
         var weights: [Position: Int] = [:]
         var pending: [Cell] = []
         guard let cell = maze[start] else {
@@ -31,7 +31,7 @@ class MazeSolver { // Dijkstra
         return weights
     }
     
-    func solveMaze(_ maze: Grid, start: Position, end: Position) -> [Position] {
+    public func solveMaze(_ maze: Grid, start: Position, end: Position) -> [Position] {
         let weights = calculateWeights(maze: maze, start: start)
         var current = end
         var breadcrumbs = [end]
@@ -48,7 +48,7 @@ class MazeSolver { // Dijkstra
         return breadcrumbs
     }
     
-    func longestPath(maze: Grid) -> [Position] {
+    public func longestPath(maze: Grid) -> [Position] {
         let weights = calculateWeights(maze: maze, start: maze.randomCell().position)
         let newStart = weights.keys.max(by: { weights[$0]! < weights[$1]! })!
         let newWeights = calculateWeights(maze: maze, start: newStart)

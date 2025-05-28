@@ -11,8 +11,7 @@ import MazeAlgorithms
 @Observable
 class MazeManager {
     var maze: MazeAlgorithms.Grid
-    let mazeGenerator = MazeGenerator()
-    let mazeSolver = MazeSolver()
+    let mazeFacade = MazeAlgorithmsFacade()
     var weights = [Position: Int]()
     var path = [Position(0, 0)]
     var maskedCells: [Position] = []
@@ -32,7 +31,7 @@ class MazeManager {
     }
     
     func generateMaze(rows: Int, cols: Int, algorithm: MazeAlgorithm) throws {
-        maze = try mazeGenerator.generateMaze(
+        maze = try mazeFacade.generateMaze(
             rows: rows,
             cols: cols,
             algorithm: algorithm
@@ -40,17 +39,17 @@ class MazeManager {
         clearMaze()
         let deadends = maze.deadends()
         print("deadends: \(deadends.count)")
-        let longestPath = mazeSolver.longestPath(maze: maze)
-        print("longest path length: \(longestPath.count)")
+        let longestPathResult = mazeFacade.longestPath(maze: maze)
+        print("longest path length: \(longestPathResult.count)")
     }
     
     func generateMaze(algorithm: MazeAlgorithm) {
         clearMaze()
-        mazeGenerator.generateMaze(in: maze, algorithm: algorithm)
+        mazeFacade.generateMaze(in: maze, algorithm: algorithm)
         let deadends = maze.deadends()
         print("deadends: \(deadends.count)")
-        let longestPath = mazeSolver.longestPath(maze: maze)
-        print("longest path length: \(longestPath.count)")
+        let longestPathResult = mazeFacade.longestPath(maze: maze)
+        print("longest path length: \(longestPathResult.count)")
     }
     
     func generateStep(algorithm: MazeAlgorithm) -> Bool {
@@ -75,22 +74,27 @@ class MazeManager {
                 }
                 return randomCell.position
             }}()
-        path = mazeSolver.solveMaze(
-            maze,
+
+        path = mazeFacade.solveMaze(
+            maze: maze,
             start: start,
             end: end
         ).reversed()
     }
 
     func longestPath() {
-        path = mazeSolver.longestPath(maze: maze)
+        path = mazeFacade.longestPath(maze: maze)
         print("longest path length: \(path.count)")
     }
     
     func calculateWeights() {
-        weights = mazeSolver.calculateWeights(
+        guard let startPosition = path.first else {
+            weights = [:]
+            return
+        }
+        weights = mazeFacade.calculateWeights(
             maze: maze,
-            start: path.first!
+            start: startPosition
         )
     }
     
