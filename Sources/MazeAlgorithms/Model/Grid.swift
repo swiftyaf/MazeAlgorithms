@@ -142,6 +142,10 @@ public class Grid { // NW = 0,0
         }
     }
     
+    public func mask(cells: [Position]) {
+        maskedCells.append(contentsOf: cells)
+    }
+    
     // MARK: Stats
         
     public func deadends() -> [Cell] {
