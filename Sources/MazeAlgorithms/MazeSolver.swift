@@ -39,9 +39,17 @@ public class MazeSolver { // Dijkstra
             guard let cell = maze[current] else {
                 fatalError()
             }
-            guard let previousCell = cell.links.first(where: { weights[$0.position]! < weights[current]! }) else {
-                fatalError()
+            
+            // Look for the linked cell with the lowest weight (closest to start)
+            guard let previousCell = cell.links.min(by: { weights[$0.position, default: Int.max] < weights[$1.position, default: Int.max] }) else {
+                fatalError("No path found from end to start")
             }
+            
+            // If we're not making progress, there's a problem with the path
+            if weights[previousCell.position, default: Int.max] >= weights[current, default: Int.max] {
+                fatalError("No valid path - weights not decreasing toward start")
+            }
+            
             breadcrumbs.append(previousCell.position)
             current = previousCell.position
         }
