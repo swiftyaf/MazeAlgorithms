@@ -6,8 +6,8 @@
 //
 
 public struct Position: Hashable, CustomStringConvertible {
-    let row: Int
-    let col: Int
+    public let row: Int
+    public let col: Int
     public var description: String { "(\(row), \(col))" }
     
     public init(_ row: Int, _ col: Int) {
