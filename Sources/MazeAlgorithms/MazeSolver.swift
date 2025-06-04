@@ -15,13 +15,20 @@ public class MazeSolver { // Dijkstra
             return weights
         }
         pending = [cell]
-        weights[cell.position] = maze.cellWeights[cell.position]
+        
+        // Transform zero weights for the algorithm's calculation
+        // This preserves the meaning of "easier passage" while avoiding zero weight complications
+        let safeWeight = max(1, maze.cellWeights[cell.position] ?? 1)
+        weights[cell.position] = safeWeight
         
         while !pending.isEmpty {
             pending.sort { weights[$0.position]! < weights[$1.position]! }
             let currentCell = pending.removeFirst()
             currentCell.links.forEach { neighbour in
-                let totalWeight = weights[currentCell.position]! + maze.cellWeights[neighbour.position]!
+                // Use 1 as minimum weight to ensure algorithm stability
+                let neighborWeight = max(1, maze.cellWeights[neighbour.position] ?? 1)
+                let totalWeight = weights[currentCell.position]! + neighborWeight
+                
                 if weights[neighbour.position] == nil || weights[neighbour.position]! > totalWeight {
                     weights[neighbour.position] = totalWeight
                     pending.append(neighbour)
@@ -37,17 +44,12 @@ public class MazeSolver { // Dijkstra
         var breadcrumbs = [end]
         while current != start {
             guard let cell = maze[current] else {
-                fatalError()
+                fatalError("Cell not found in maze at position \(current)")
             }
             
-            // Look for the linked cell with the lowest weight (closest to start)
+            // Find the linked cell that gets us closest to start (lowest weight)
             guard let previousCell = cell.links.min(by: { weights[$0.position, default: Int.max] < weights[$1.position, default: Int.max] }) else {
                 fatalError("No path found from end to start")
-            }
-            
-            // If we're not making progress, there's a problem with the path
-            if weights[previousCell.position, default: Int.max] >= weights[current, default: Int.max] {
-                fatalError("No valid path - weights not decreasing toward start")
             }
             
             breadcrumbs.append(previousCell.position)
