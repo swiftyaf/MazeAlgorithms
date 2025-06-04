@@ -146,6 +146,10 @@ public class Grid { // NW = 0,0
         maskedCells.append(contentsOf: cells)
     }
     
+    public func unmask(cells: [Position]) {
+        maskedCells.removeAll { cells.contains($0) }
+    }
+    
     // MARK: Stats
         
     public func deadends() -> [Cell] {
