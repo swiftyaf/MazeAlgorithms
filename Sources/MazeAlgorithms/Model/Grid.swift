@@ -152,6 +152,10 @@ public class Grid { // NW = 0,0
         allCells.filter { $0.links.count == 1 }
     }
     
+    public func isolatedCells() -> [Cell] {
+        allCells.filter { $0.links.isEmpty }
+    }
+    
     var deadendCells: Int {
         deadends().count
     }
