@@ -66,7 +66,7 @@ public class Grid { // NW = 0,0
         return self[nextCellPosition]
     }
     
-    func neighbours(of cell: Cell) -> [Cell] {
+    public func neighbours(of cell: Cell) -> [Cell] {
         var neighbours: [Cell] = []
         for direction in Direction.allCases {
             if let neighbour = self.cell(nextTo: cell, direction: direction) {
@@ -76,17 +76,17 @@ public class Grid { // NW = 0,0
         return neighbours
     }
     
-    func link(cell1: Cell, cell2: Cell) {
+    public func link(cell1: Cell, cell2: Cell) {
         cell1.link(to: cell2)
         cell2.link(to: cell1)
     }
     
-    func unlink(cell1: Cell, cell2: Cell) {
+    public func unlink(cell1: Cell, cell2: Cell) {
         cell1.links = cell1.links.filter { $0 !== cell2 }
         cell2.links = cell2.links.filter { $0 !== cell1 }
     }
     
-    func wallExists(currentCell: Cell, direction: Direction) -> Bool {
+    public func wallExists(currentCell: Cell, direction: Direction) -> Bool {
         guard let neighbour = cell(nextTo: currentCell, direction: direction) else {
             return true
         }
