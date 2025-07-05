@@ -166,11 +166,11 @@ public class Grid { // NW = 0,0
         allCells.filter { $0.links.count == 1 }
     }
     
-    var deadendCellCount: Int {
+    public var deadendCellCount: Int {
         deadendCells.count
     }
     
-    var twistedCells: Int {
+    public var twistedCells: Int {
         allCells
             .filter { $0.links.count == 2 }
             .filter {
@@ -182,7 +182,7 @@ public class Grid { // NW = 0,0
             .count
     }
     
-    var throughCells: [Cell] {
+    public var throughCells: [Cell] {
         allCells
             .filter { $0.links.count == 2 }
             .filter {
@@ -191,16 +191,16 @@ public class Grid { // NW = 0,0
             }
     }
     
-    var throughCellCount: Int {
+    public var throughCellCount: Int {
         throughCells.count
     }
     
-    var passageCells: [Cell] {
+    public var passageCells: [Cell] {
         allCells
             .filter { $0.links.count == 2 }
     }
     
-    var passageCellCount: Int {
+    public var passageCellCount: Int {
         passageCells.count
     }
     
