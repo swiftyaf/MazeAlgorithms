@@ -11,7 +11,7 @@ import SwiftUI
 public class Grid { // NW = 0,0
     let cells: [[Cell]]
     private var maskedCells: [Position]
-    public let cellWeights: [Position: Int]
+    private(set) var cellWeights: [Position: Int]
     public let rows: Int
     public let cols: Int
     
@@ -54,6 +54,10 @@ public class Grid { // NW = 0,0
             return nil
         }
         return cells[row][col]
+    }
+    
+    public func updateWeights(_ weights: [Position: Int]) {
+        cellWeights = weights
     }
     
     public func randomCell() -> Cell {
