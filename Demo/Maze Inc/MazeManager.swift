@@ -37,7 +37,7 @@ class MazeManager {
             algorithm: algorithm
         )
         clearMaze()
-        let deadends = maze.deadends()
+        let deadends = maze.deadendCells
         print("deadends: \(deadends.count)")
         let longestPathResult = mazeFacade.longestPath(maze: maze)
         print("longest path length: \(longestPathResult.count)")
@@ -46,7 +46,7 @@ class MazeManager {
     func generateMaze(algorithm: MazeAlgorithm) {
         clearMaze()
         mazeFacade.generateMaze(in: maze, algorithm: algorithm)
-        let deadends = maze.deadends()
+        let deadends = maze.deadendCells
         print("deadends: \(deadends.count)")
         let longestPathResult = mazeFacade.longestPath(maze: maze)
         print("longest path length: \(longestPathResult.count)")

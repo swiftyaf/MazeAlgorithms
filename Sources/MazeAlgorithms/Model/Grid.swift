@@ -14,10 +14,12 @@ public class Grid { // NW = 0,0
     public let cellWeights: [Position: Int]
     public let rows: Int
     public let cols: Int
-    var totalCells: Int {
+    
+    public var totalCells: Int {
         rows * cols - maskedCells.count
     }
-    var allCells: [Cell] {
+    
+    public var allCells: [Cell] {
         cells.flatMap { $0 }.filter { !maskedCells.contains($0.position) }
     }
     
@@ -112,7 +114,7 @@ public class Grid { // NW = 0,0
     }
     
     public func braid(p: Int = 10) {
-        let deadends = deadends().shuffled()
+        let deadends = deadendCells.shuffled()
         deadends.forEach { deadend in
             if deadend.links.count == 1 && Int.random(in: 0..<10) < p {
                 let neighbours = neighbours(of: deadend)
@@ -128,7 +130,7 @@ public class Grid { // NW = 0,0
     }
     
     public func cull(ignoring: [Position] = []) {
-        let deadends = deadends().filter { !ignoring.contains($0.position) }.shuffled()
+        let deadends = deadendCells.filter { !ignoring.contains($0.position) }.shuffled()
         var culledCellCount = 0
         deadends.forEach { deadend in
             deadend.links.forEach { link in
@@ -152,16 +154,20 @@ public class Grid { // NW = 0,0
     
     // MARK: Stats
         
-    public func deadends() -> [Cell] {
-        allCells.filter { $0.links.count == 1 }
-    }
-    
-    public func isolatedCells() -> [Cell] {
+    public var isolatedCells: [Cell] {
         allCells.filter { $0.links.isEmpty }
     }
     
-    var deadendCells: Int {
-        deadends().count
+    public var isolatedCellCount: Int {
+        isolatedCells.count
+    }
+    
+    public var deadendCells: [Cell] {
+        allCells.filter { $0.links.count == 1 }
+    }
+    
+    var deadendCellCount: Int {
+        deadendCells.count
     }
     
     var twistedCells: Int {
@@ -176,25 +182,34 @@ public class Grid { // NW = 0,0
             .count
     }
     
-    var throughCells: Int {
+    var throughCells: [Cell] {
         allCells
             .filter { $0.links.count == 2 }
             .filter {
                 ($0.passages[.east]! && $0.passages[.west]!) ||
                 ($0.passages[.south]! && $0.passages[.north]!)
             }
-            .count
     }
     
-    var passageCells: Int {
+    var throughCellCount: Int {
+        throughCells.count
+    }
+    
+    var passageCells: [Cell] {
         allCells
             .filter { $0.links.count == 2 }
-            .count
     }
     
-    var intersectionCells: Int {
+    var passageCellCount: Int {
+        passageCells.count
+    }
+    
+    public var intersectionCells: [Cell] {
         allCells
             .filter { $0.links.count >= 3 }
-            .count
+    }
+    
+    public var intersectionCellCount: Int {
+        intersectionCells.count
     }
 }
