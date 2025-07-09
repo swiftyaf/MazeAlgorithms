@@ -10,7 +10,7 @@ import SwiftUI
 @Observable
 public class Grid { // NW = 0,0
     let cells: [[Cell]]
-    private var maskedCells: [Position]
+    public private(set) var maskedCells: [Position]
     public private(set) var cellWeights: [Position: Int]
     public let rows: Int
     public let cols: Int
