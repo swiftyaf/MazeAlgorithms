@@ -89,7 +89,7 @@ Please feel free to:
 
 ## License
 
-MIT License. See LICENSE for details.
+The Unlicense. See LICENSE for details.
 
 ---
 
