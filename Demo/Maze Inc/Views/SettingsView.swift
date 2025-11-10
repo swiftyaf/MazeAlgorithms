@@ -54,5 +54,16 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(isShowing: .constant(true), selectedAlgorithm: .constant(.binaryTree))
+    @Previewable @State var isShowing = true
+    @Previewable @State var selectedAlgorithm: MazeAlgorithm = .binaryTree
+
+    SettingsView(
+        isShowing: $isShowing,
+        selectedAlgorithm: $selectedAlgorithm
+    )
+
+    // Reopen the menu for easier testing.
+    .onChange(of: selectedAlgorithm) {
+        isShowing = true
+    }
 }
