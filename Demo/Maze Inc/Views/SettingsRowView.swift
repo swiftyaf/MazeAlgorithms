@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SettingsRowView: View {
     let title: String
-    @Binding var selected: Bool
-    
+    let selected: Bool
+
     var body: some View {
         HStack {
             Image(systemName: "gearshift.layout.sixspeed")
@@ -23,10 +23,22 @@ struct SettingsRowView: View {
         .foregroundStyle(selected ? .primary: .secondary)
         .frame(width: 216, height: 44)
         .background(selected ? .accent.opacity(0.15) : .clear)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(.rect(cornerRadius: 10))
     }
 }
 
 #Preview {
-    SettingsRowView(title: "Name", selected: .constant(true))
+    @Previewable @State var selectedIndex = 0
+
+    VStack {
+        ForEach(0..<2) { index in
+            Button {
+                selectedIndex = index
+            } label: {
+                SettingsRowView(title: "Name", selected: selectedIndex == index)
+                    .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+        }
+    }
 }

@@ -34,10 +34,7 @@ struct SettingsView: View {
                             } label: {
                                 SettingsRowView(
                                     title: algorithm.rawValue,
-                                    selected: Binding<Bool>(
-                                        get: { selectedAlgorithm == algorithm },
-                                        set: { _ in }
-                                    )
+                                    selected: selectedAlgorithm == algorithm
                                 )
                             }
                         }
@@ -46,8 +43,7 @@ struct SettingsView: View {
                     }
                     .padding()
                     .frame(width: 270, alignment: .leading)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .background(in: .rect(cornerRadius: 10))
                     .padding(.vertical)
                 }
                 .transition(.move(edge: .trailing))
@@ -58,5 +54,16 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(isShowing: .constant(true), selectedAlgorithm: .constant(.binaryTree))
+    @Previewable @State var isShowing = true
+    @Previewable @State var selectedAlgorithm: MazeAlgorithm = .binaryTree
+
+    SettingsView(
+        isShowing: $isShowing,
+        selectedAlgorithm: $selectedAlgorithm
+    )
+
+    // Reopen the menu for easier testing.
+    .onChange(of: selectedAlgorithm) {
+        isShowing = true
+    }
 }

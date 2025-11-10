@@ -51,6 +51,19 @@ struct MazeActionsView: View {
                 .disabled(!mazeGenerated)
             }
         }
-        .buttonStyle(BorderedButtonStyle())
+        .buttonStyle(.bordered)
     }
+}
+
+#Preview {
+    @Previewable @State var isGenerated: Bool = false
+    @Previewable @State var isBraided: Bool = false
+    @Previewable @State var backgroundColorMode: BackgroundColorMode = .none
+
+    MazeActionsView(
+        mazeManager: MazeManager(),
+        mazeGenerated: $isGenerated,
+        mazeBraided: $isBraided,
+        backgroundColorMode: $backgroundColorMode
+    )
 }
