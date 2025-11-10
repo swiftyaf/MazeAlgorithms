@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SettingsRowView: View {
     let title: String
-    @Binding var selected: Bool
-    
+    let selected: Bool
+
     var body: some View {
         HStack {
             Image(systemName: "gearshift.layout.sixspeed")
@@ -28,5 +28,5 @@ struct SettingsRowView: View {
 }
 
 #Preview {
-    SettingsRowView(title: "Name", selected: .constant(true))
+    SettingsRowView(title: "Name", selected: true)
 }

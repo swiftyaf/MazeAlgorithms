@@ -34,10 +34,7 @@ struct SettingsView: View {
                             } label: {
                                 SettingsRowView(
                                     title: algorithm.rawValue,
-                                    selected: Binding<Bool>(
-                                        get: { selectedAlgorithm == algorithm },
-                                        set: { _ in }
-                                    )
+                                    selected: selectedAlgorithm == algorithm
                                 )
                             }
                         }
