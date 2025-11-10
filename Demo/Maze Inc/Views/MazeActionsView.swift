@@ -54,3 +54,17 @@ struct MazeActionsView: View {
         .buttonStyle(BorderedButtonStyle())
     }
 }
+
+#Preview {
+    @Previewable @State var isGenerated: Bool = false
+    @Previewable @State var isBraided: Bool = false
+    @Previewable @State var backgroundColorMode: BackgroundColorMode = .none
+    let manager = MazeManager()
+
+    MazeActionsView(
+        mazeManager: MazeManager(),
+        mazeGenerated: $isGenerated,
+        mazeBraided: $isBraided,
+        backgroundColorMode: $backgroundColorMode
+    )
+}
