@@ -43,7 +43,7 @@ struct SettingsView: View {
                     }
                     .padding()
                     .frame(width: 270, alignment: .leading)
-                    .background(.white)
+                    .background()
                     .clipShape(.rect(cornerRadius: 10))
                     .padding(.vertical)
                 }
