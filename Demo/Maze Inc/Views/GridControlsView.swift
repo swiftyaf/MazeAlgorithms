@@ -28,5 +28,8 @@ struct GridControlsView: View {
 }
 
 #Preview {
-    GridControlsView(rows: .constant(10), cols: .constant(10))
+    @Previewable @State var rows = 10.0
+    @Previewable @State var cols = 10.0
+
+    GridControlsView(rows: $rows, cols: $cols)
 }
