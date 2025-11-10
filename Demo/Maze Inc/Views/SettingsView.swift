@@ -43,8 +43,7 @@ struct SettingsView: View {
                     }
                     .padding()
                     .frame(width: 270, alignment: .leading)
-                    .background()
-                    .clipShape(.rect(cornerRadius: 10))
+                    .background(in: .rect(cornerRadius: 10))
                     .padding(.vertical)
                 }
                 .transition(.move(edge: .trailing))
