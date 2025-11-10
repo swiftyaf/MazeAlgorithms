@@ -23,7 +23,7 @@ struct SettingsRowView: View {
         .foregroundStyle(selected ? .primary: .secondary)
         .frame(width: 216, height: 44)
         .background(selected ? .accent.opacity(0.15) : .clear)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(.rect(cornerRadius: 10))
     }
 }
 
