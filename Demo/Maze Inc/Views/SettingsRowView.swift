@@ -28,5 +28,17 @@ struct SettingsRowView: View {
 }
 
 #Preview {
-    SettingsRowView(title: "Name", selected: true)
+    @Previewable @State var selectedIndex = 0
+
+    VStack {
+        ForEach(0..<2) { index in
+            Button {
+                selectedIndex = index
+            } label: {
+                SettingsRowView(title: "Name", selected: selectedIndex == index)
+                    .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+        }
+    }
 }
