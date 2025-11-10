@@ -51,7 +51,7 @@ struct MazeActionsView: View {
                 .disabled(!mazeGenerated)
             }
         }
-        .buttonStyle(BorderedButtonStyle())
+        .buttonStyle(.bordered)
     }
 }
 
