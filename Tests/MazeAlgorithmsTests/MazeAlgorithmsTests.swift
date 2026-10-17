@@ -13,14 +13,14 @@ func generatedMazeIsTheCorrectSize(algorithm: MazeAlgorithm) throws {
 func generatedMazeHasAllCells(algorithm: MazeAlgorithm) throws {
     let facade = MazeAlgorithmsFacade()
     let maze = try facade.generateMaze(rows: 10, cols: 10, algorithm: algorithm)
-    #expect(maze.totalCells == maze.intersectionCells + maze.deadendCells + maze.passageCells)
+    #expect(maze.totalCells == maze.intersectionCellCount + maze.deadendCellCount + maze.passageCellCount)
 }
 
 @Test(arguments: MazeAlgorithm.allCases)
 func twistedPlusThroughEqualPassageCells(algorithm: MazeAlgorithm) throws {
     let facade = MazeAlgorithmsFacade() // Using Facade
     let maze = try facade.generateMaze(rows: 10, cols: 10, algorithm: algorithm)
-    #expect(maze.passageCells == maze.twistedCells + maze.throughCells)
+    #expect(maze.passageCellCount == maze.twistedCells + maze.throughCellCount)
 }
 
 // --- Helper for creating a predictable test maze ---

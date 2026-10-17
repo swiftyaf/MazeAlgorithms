@@ -55,6 +55,17 @@ let maze = grid
 
 For real-time visualization in SwiftUI, use `generateStep()`. Check the demo app for full example.
 
+### Reproducible Mazes
+
+Pass a seed to get the same maze every time, on every device and package version — handy for daily challenges or sharing a maze:
+
+```swift
+let grid = Grid(rows: 12, cols: 8)
+try mazeFacade.generateMaze(in: grid, algorithm: .recursiveBacktracker, seed: 20261017)
+```
+
+Seeding is currently supported by `.recursiveBacktracker` (check `algorithm.supportsSeeding`). Use `SeededRandomNumberGenerator` for any other choices that must be reproducible, via its `nextInt(upperBound:)` and `element(of:)`.
+
 ### Solving Mazes
 
 Find the optimal path between two cells:

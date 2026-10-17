@@ -43,4 +43,18 @@ public enum MazeAlgorithm: String, CaseIterable, Sendable, Identifiable {
         case .recursiveDivision: RecursiveDivisionMazeGenerator()
         }
     }
+
+    /// Whether `seededGenerator(seed:)` can produce reproducible mazes for this algorithm.
+    public var supportsSeeding: Bool {
+        seededGenerator(seed: 0) != nil
+    }
+
+    /// A generator that always produces the same maze for the same seed and grid size,
+    /// or `nil` if this algorithm doesn't support seeding yet.
+    public func seededGenerator(seed: UInt64) -> MazeGenerating? {
+        switch self {
+        case .recursiveBacktracker: RecursiveBacktrackerMazeGenerator(seed: seed)
+        default: nil
+        }
+    }
 }

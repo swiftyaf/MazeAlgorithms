@@ -20,6 +20,21 @@ public class MazeAlgorithmsFacade {
         algorithm.generator.generateMaze(in: grid)
     }
     
+    /// Generates a reproducible maze inside the Grid passed as parameter: the same seed and
+    /// grid size always produce the same maze, on every device and package version.
+    ///
+    /// - Parameters:
+    ///   - grid: A `Grid` object where you want the maze to be contained
+    ///   - algorithm: Which algorithm to use for maze generation
+    ///   - seed: The seed that determines the maze
+    /// - Throws: `MazeGeneratorError.seedNotSupported` if the algorithm does not support seeding.
+    public func generateMaze(in grid: Grid, algorithm: MazeAlgorithm, seed: UInt64) throws {
+        guard let generator = algorithm.seededGenerator(seed: seed) else {
+            throw MazeGeneratorError.seedNotSupported(algorithm: algorithm)
+        }
+        generator.generateMaze(in: grid)
+    }
+    
     public func generateStep() -> Bool {
         return false
     }

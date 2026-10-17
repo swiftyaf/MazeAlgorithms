@@ -66,6 +66,17 @@ public class Grid { // NW = 0,0
         return self[randomRow, randomCol] ?? randomCell()
     }
     
+    /// Returns a random unmasked cell chosen with a seeded generator, so the choice is reproducible.
+    public func randomCell(using generator: inout SeededRandomNumberGenerator) -> Cell {
+        while true {
+            let randomRow = generator.nextInt(upperBound: rows)
+            let randomCol = generator.nextInt(upperBound: cols)
+            if let cell = self[randomRow, randomCol] {
+                return cell
+            }
+        }
+    }
+    
     public func cell(nextTo cell: Cell, direction: Direction) -> Cell? {
         let nextCellPosition = Position(cell.position.row + direction.offset.vertical,
                                         cell.position.col + direction.offset.horizontal)
